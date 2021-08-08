@@ -86,10 +86,10 @@ main(args []cpstring) {
         flags.invalidate()
     }
 
-    fs = fileStream{}
+    fm = fileMap{}
     fn = flags.get("file")
-    fs.open(fn, "r")
-    if fs.isValid() == 0 {
+    content = fm.open(fn)
+    if fm.isValid() == 0 {
         panic("File does not exist.")
     }
 
@@ -104,9 +104,8 @@ main(args []cpstring) {
     fileName.trimRight(4)
     pathElems = splitString(fileName, "/")
     fileName = pathElems[len(pathElems)-1]
-    content = fs.readContent()
     
-    fs.close()
+    fm.close()
 
     lines = splitString(string(content), "\n")
     
@@ -232,6 +231,8 @@ main(args []cpstring) {
     
     fileName.prepend("./pages/doc/libs/")
     fileName.append(".md")
+    
+    fs = fileStream{}
     fs.open(fileName, "w")
     fs.writeFile(doc)
     fs.close()

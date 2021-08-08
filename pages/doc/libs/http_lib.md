@@ -49,7 +49,7 @@ A wrapper for HTTP responses. You will be able to set/retreive the headers sent/
 You will encounter this when doing a request or sending a response to the client.
 __Its methods are:__
 - <code>**send**() </code> Send the response.
-*Use it only when sending response to the client from a http_server*.
+&ast;Use it only when sending response to the client from a http_server&ast;.
 - <code>**setHeader**(name cpstring, value cpstring) </code> To set a header by name.
 - <code>**getHeader**(name cpstring) cpstring </code> To get the value of a header by name.
 - <code>**write**(content cpstring) </code> To append to the body of the response.
@@ -58,7 +58,7 @@ __Its methods are:__
 ### makeRawHttpsRequest (func)
 <code>makeRawHttpsRequest(host cpstring, message cpstring) cpstring </code>
 Used for making TLS requests.
-*This is an internal function, you should know what you're doing if you decide to use it.*
+&ast;This is an internal function, you should know what you're doing if you decide to use it.&ast;
 
 
 ### makeRawRequest (func)
@@ -80,14 +80,14 @@ Used for making simple post request with variables (args) formatted as name=valu
 ### isPortAvailable (func)
 <code>isPortAvailable(port int) int </code>
 Checks if a port is available.
-*Note: this command is very slow.*
+&ast;Note: this command is very slow.&ast;
 
 
 ## Example
 <code> #include "http.bah"
 
 
- server(serv http_server*, connfd int) int {
+ server(serv http_server&ast;, connfd int) int {
 
      request = http_request(connfd)
      response = http_response(connfd)

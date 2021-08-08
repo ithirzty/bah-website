@@ -27,22 +27,17 @@ server(serv http_server*, connfd int) int {
 
     path = parsePath(req.path)
 
-    fs = fileStream{}
+    fs = fileMap{}
     page cpstring
     if path.hasPrefix("./pages/doc/") {
-        fs.open("./pages/doc/header.html", "r")
-        header = fs.readContent()
+        header = fs.open("./pages/doc/header.html")
         fs.close()
         resp.write(header)
 
         path.append(".md")
-        fs.open(path, "r")
+        mdf = fs.open(path)
 
-        mdf cpstring
-        if fs.isValid() {
-            mdf = fs.readContent()
-            fs.close()
-        } else {
+        if fs.isValid() == 0 {
             mdf = "
 # 404
 ## Page not found.
@@ -54,14 +49,13 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
         mdhtml = md.html()
         resp.write(mdhtml)
 
-        fs.open("./pages/doc/footer.html", "r")
-        footer = fs.readContent()
+        fs.close()
+        footer = fs.open("./pages/doc/footer.html")
         fs.close()
         resp.write(footer)
         
     } else {
-        fs.open(path, "r")
-        page = fs.readContent()
+        page = fs.open(path)
         fs.close()
         resp.write(page)
     }

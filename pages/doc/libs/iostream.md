@@ -24,7 +24,7 @@ Print an error to the terminal and exits the program.
 
 ### fileStream (struct)
 A wrapper that makes file manipulation easier.
-*Note: after openning a file, you will need to close it.*
+&ast;Note: after openning a file, you will need to close it.&ast;
 __Its methods are:__
 - <code>**isValid**() int </code> Checks if the current opened file is valid or not.
 - <code>**open**(path cpstring, mode cpstring) </code> Opens a file by its name.
@@ -36,6 +36,15 @@ The differents modes can be found [here](https://koor.fr/C/cstdio/fopen.wp).
 - <code>**getChar**() char </code> Returns a char at the current reading cursor in the file and moves the reading cursor to the next char.
 - <code>**createFile**(path cpstring) </code> Creates a file by name.
 - <code>**writeFile**(content cpstring) int </code> Writes the opened file with the specified content.
+
+
+### fileMap (struct)
+A wrapper to make file direct operation, wihtout needing to write file on changes.
+This is faster than the fileStream but every modification made to the returned string will be directly made to the file.
+__Its methods are:__
+- <code>**open**(fileName cpstring) cpstring </code> To open a file inside the fileMap.
+- <code>**isValid**() int </code> Check if file is valid or not.
+- <code>**close**() </code> To close a file after you are done working on it.
 
 
 ### listFiles (func)
