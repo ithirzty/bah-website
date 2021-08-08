@@ -59,17 +59,17 @@ This should not be used if you are not trying to extend the implementation of re
 
 
 ### compileRegex (func)
-<code>compileRegex(cpexpr cpstring) regex* </code>
+<code>compileRegex(cpexpr cpstring) regex&ast; </code>
 This is used to parse a regex expression and returns a pointer to its instance.
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "string.bah"
- #include "regex.bah"
- #include "array.bah"
+<code> &#35;include "iostream.bah"
+ &#35;include "string.bah"
+ &#35;include "regex.bah"
+ &#35;include "array.bah"
  main(){
- regex = compileRegex("\\w+(\\d)\\w*B(.{1,3})")
+ regex = compileRegex("\\w+(\\d)\\w&ast;B(.{1,3})")
  if regex == 0 {
  panic("WRONG REGEX SYNTAX")
  }
