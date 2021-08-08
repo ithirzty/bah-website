@@ -1,48 +1,60 @@
-## iostream.bah
+# iostream
 
 
-### Functions/Structure/Types
+### stdinput (func)
+<code>stdinput(len int) cpstring </code>
+Returns the text inputted by the user inside the terminal.
+The returned cpstring will have the specified length.
 
 
-##### stdinput (function)
-Used for getting line inputed in the console by the user as: <code>stdinput(len int) cpstring</code>
+### print (func)
+<code>print(s cpstring) </code>
+Prints text to the terminal.
 
 
-##### print/println (function)
-Used for printing to the console (the ln variation adds a newline character to the end) as: <code>print(s cpstring)</code>
+### println (func)
+<code>println(s cpstring) </code>
+Prints text to the terminal and adds a line return at the end.
 
 
-##### panic (function)
-Used for printing a message then exiting as an error as: <code>panic(e cpstring)</code>
+### panic (func)
+<code>panic(e cpstring) </code>
+Print an error to the terminal and exits the program.
 
 
-##### listFiles (function)
-Used for listting every files of a directory as: <code>listFiles(dir cpstring) []cpstring</code>
+### fileStream (struct)
+A wrapper that makes file manipulation easier.
+*Note: after openning a file, you will need to close it.*
+__Its methods are:__
+- <code>**isValid**() int </code> Checks if the current opened file is valid or not.
+- <code>**open**(path cpstring, mode cpstring) </code> Opens a file by its name.
+The differents modes can be found [here](https://koor.fr/C/cstdio/fopen.wp).
+- <code>**close**() </code> Closes an opennend connection to a file.
+- <code>**getSize**() int </code> Returns the size of a file in bytes.
+- <code>**readContent**() cpstring </code> Returns the content of the opened file.
+- <code>**rewind**() </code> Sets the reading cursor to the beginning of the file.
+- <code>**getChar**() char </code> Returns a char at the current reading cursor in the file and moves the reading cursor to the next char.
+- <code>**createFile**(path cpstring) </code> Creates a file by name.
+- <code>**writeFile**(content cpstring) int </code> Writes the opened file with the specified content.
 
 
-##### fileStream (struct)
-An interface with the file system.<br>Its methods are:
-- <code>open(path cpstring, mode cpstring)</code> to open a file. The openning mode are the same as in C (r, w, a, r+, a+, w+). **When oppening a file, you will need to close it.**
-- <code>getSize() int</code> to get the size of the current openned file in bytes
-- <code>readContent() cpstring</code> to get the content of the current openned file
-- <code>rewind()</code> to rewind the current openned file
-- <code>getChar() char</code> to get the content of the current openned file
-- <code>createFile(path cpstring)</code> to create a file
-- <code>writeFile(content cpstring)</code> to set the content of the current openned file
-- <code>close()</code> to close the handle to the file.
+### listFiles (func)
+<code>listFiles(dir cpstring) []cpstring </code>
+Returns a list of all files found inside the specified directory.
 
 
-#### Example
-<code>
-#include "iostream.bah"
+### fileExists (func)
+<code>fileExists(path cpstring) int </code>
+Checks if a file exists.
 
-main() {
-    
-    fs = fileStream{}
-    fs.open("./myFile.txt", "r")
-    fileContent = fs.readContent()
-    println(fileContent)
-    fs.close()
 
-}
+## Example
+<code> #include "iostream.bah"
+ main() {
+ fs = fileStream{}
+ fs.open("./myFile.txt", "r")
+ fileContent = fs.readContent()
+ println(fileContent)
+ fs.close()
+ }
 </code>
