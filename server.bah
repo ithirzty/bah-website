@@ -51,8 +51,10 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
 
         fs.close()
         footer = fs.open("./pages/doc/footer.html")
+        footerS = string(footer)
+        footerS.replace("{isapp}", "false")
         fs.close()
-        resp.write(footer)
+        resp.write(footerS)
         
     } else {
         page = fs.open(path)
