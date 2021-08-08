@@ -1,30 +1,31 @@
-## rand.bah
+# rand
 
 
-### Functions/Structure/Types
+### seedRandom (func)
+<code>seedRandom(i int) </code>
+Used for seeding the pseudo-random number generator.
+If two instances of a PRNG have the same seed, they will have the same output.
 
 
-##### seedRandom (function)
-Used for seeding the pseudo random generator as: <code>seedRandom(seed int)</code>
+### randomInRange (func)
+<code>randomInRange(min int, max int) int </code>
+This generates a pseudo random integer in the range of min and max.
+*Note: this is not cryptographically safe. This output of this function can be predicted.*
 
 
-##### randomInRange (function)
-Used for generating a pseudo random int inside the specified range as: <code>randomInRange(min int, max int) int</code><br> *Warning: if not seeded, the pseudo number generator is seeded with the current timestamp.*
+### cryptoRand (func)
+<code>cryptoRand() int </code>
+Used for generating a random integer.
+The ouput of this function uses the os specified way of generating a random int.
+This is slower than the PRNG but cannot be predicted. It does not need to be seeded.
 
 
-##### cryptoRand (function)
-Used for generating a random int, random enough to be used in cryptographic use as: <code>cryptoRand() int</code>
-
-
-#### Example
-<code>
-#include "iostream.bah"
-#include "rand.bah"
-
-main() {
-    i = randomInRange(0, 100)
-
-    println(intToString(i))
-
-}
+## Example
+<code> #include "iostream.bah"
+ #include "rand.bah"
+ main() {
+ i = randomInRange(0, 100)
+ s = intToString(i)
+ println(s)
+ }
 </code>

@@ -1,0 +1,149 @@
+#include "iostream.bah"
+#include "http.bah"
+#include "string.bah"
+#include "path.bah"
+#include "markdown.bah"
+#include "thread.bah"
+
+BASE_PATH = "./pages"
+
+COOLDOWN int*
+
+parsePath(p cpstring) string {
+    path = string(p)
+    if path.compare("/") {
+        path.append("index.html")
+    }
+
+    path.prepend(BASE_PATH)
+    return path
+}
+
+server(serv http_server*, connfd int) int {
+
+    req = http_request(connfd)
+    resp = http_response(connfd)
+
+    resp.setHeader("Content-Type", "text/html")
+
+
+    path = parsePath(req.path)
+
+    *COOLDOWN = time(0)
+
+    if path.compare("/ping") {
+        resp.write("ok")
+        resp.send()
+        return 0
+    }
+
+    fs = fileStream{}
+    page cpstring
+    if path.hasPrefix("./pages/doc/") {
+        fs.open("./pages/doc/header.html", "r")
+        header = fs.readContent()
+        fs.close()
+        resp.write(header)
+
+        path.append(".md")
+        fs.open(path, "r")
+
+        mdf cpstring
+        if fs.isValid() {
+            mdf = fs.readContent()
+            fs.close()
+        } else {
+            mdf = "
+# 404
+## Page not found.
+You can go to the [syntax](/doc/syntax) page to access the documentation.           
+"
+        }
+        
+        md = parseMarkdown(mdf)
+        mdhtml = md.html()
+        resp.write(mdhtml)
+
+        fs.open("./pages/doc/footer.html", "r")
+        footer = fs.readContent()
+        fs.close()
+        resp.write(footer)
+        
+    } else {
+        fs.open(path, "r")
+        page = fs.readContent()
+        fs.close()
+        resp.write(page)
+    }
+
+
+
+    resp.send()
+    return 0
+}
+
+locateChrome() cpstring {
+    paths = []cpstring
+    paths[0] = "/usr/bin/google-chrome-stable"
+    paths[1] = "/usr/bin/google-chrome"
+    paths[2] = "/usr/bin/chromium"
+    paths[3] = "/usr/bin/chromium-browser"
+    paths[4] = "/snap/bin/chromium"
+
+    i=0; for i < len(paths) {
+        p = paths[i]
+        if fileExists(p) {
+            return p
+        }
+        i++
+    }
+
+    cmd = command("zenity --error --title \"Missing chromium\" --text \"Could not find chrome/chromium on this machine.\"")
+    cmd.run()
+}
+
+createChrome(port int) {
+    cmdS = intToString(port)
+    cmdS.prepend(" --app=http://localhost:")
+    cmdS.prepend(locateChrome())
+    cmd = command(cmdS)
+    cmd.run()
+}
+
+checkCooldown() {
+    for 1 {
+        sleep(1)
+        s = time(0) - *COOLDOWN
+        if s > 2 {
+            exit(0)
+        }
+    }
+}
+
+
+
+main(args []cpstring) {
+    COOLDOWN = sharedMemory(0)
+    *COOLDOWN = time(0)
+    tcd = thread{}
+    tcd.handle = &checkCooldown
+    tcd.create()
+
+    port = 49152
+    for port <= 65535 {
+        if isPortAvailable(port) {
+            break
+        } else if port == 65535 {
+            panic("webapp: no available port.")
+        }
+        port++
+    }
+
+    s = http_server{}
+    s.port = port
+    s.handle = &server
+
+    createChrome(port)
+
+    s.listenAndServe()
+}

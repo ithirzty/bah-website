@@ -1,37 +1,62 @@
-## memory.bah
+# memory
 
 
-### Functions/Structure/Types
+### SIZE_OF_INT (const)
 
 
-##### memoryAlloc (function)
-Used for allocating memory as: <code>memoryAlloc(size int) ptr</code>.
-The allocated memory is garbage collected. You can use the C functions <code>malloc</code> and <code>free</code> to manage your memory by yourself.
+### SIZE_OF_CHAR (const)
 
 
-##### detroy (function)
-Used for de-allocating a pointer as: <code>destroy(pointer ptr)</code>.
-*It is not recommended to use this function as memory is already managed and this may result in corrupted data.*
+### SIZE_OF_INT32 (const)
 
 
-##### clear (function)
-Used for clearing the content of an array as: <code>clear(array ptr)</code>.
-*It is not recommended to use this function as memory is already managed and this may result in corrupted data.*
+### SIZE_OF_FLOAT32 (const)
 
 
-##### memoryRealloc (function)
-Used for reallocation a pointer, as: <code>memoryRealloc(pointer ptr, size int)</code>. *The content of the pointer may not be preserved.* If not successful, will return a zero pointer.
+### SIZE_OF_FLOAT (const)
 
 
-#### Example
-<code>
-#include "string.bah"
-#include "memory.bah"
+### memoryAlloc (func)
+<code>memoryAlloc(s int) ptr </code>
+Used for allocating memory (malloc in c). You must specify the size of the block to allocate.
+Will return a pointer to the allocated block. The memory is garbage collected.
+The allocated memory cannot be shared by multiple processes. Use the sharedMemory() function instead.
 
-main() {
 
-    a cpstring = memoryAlloc(30)
-    strcpy(a, "Hi!")
+### destroy (func)
+<code>destroy(a ptr) </code>
+Destroy will force to free a pointer.
 
-}
+
+### clear (func)
+<code>clear(a ptr) </code>
+Clear will remove the content of an array.
+
+
+### append (func)
+<code>append(a ptr, b ptr) </code>
+Append will add the array b to the array a.
+Note: doesn't work with []char.
+
+
+### memoryRealloc (func)
+<code>memoryRealloc(p ptr, s int) </code>
+Will realloc memory to a specified pointer.
+*The data contained in the block of memory is not necessarly preserved.*
+
+
+### sharedMemory (func)
+<code>sharedMemory(size int) ptr </code>
+Will allocate a page of shared memory and returns a pointer to it.
+The size should be an multiple of 4096. A size of 0 will set the page size to the default (4096).
+Shared memory can be shared between two processes (after the use of fork()).
+
+
+## Example
+<code> #include "string.bah"
+ #include "memory.bah"
+ main() {
+     a cpstring = memoryAlloc(30)
+     strcpy(a, "Hi!")
+ }
 </code>

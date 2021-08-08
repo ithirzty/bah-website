@@ -1,44 +1,49 @@
-## markdown.bah
-Note that this whole documentation is parsed in real-time by the markdown library.
+# markdown
 
 
-### Functions/Structure/Types
+### appendCharArr (func)
+<code>appendCharArr(a []char, b []char) </code>
+An internal function used to append the array of chars b to the array a.
 
 
-##### parseMarkdown (function)
-Used for parsing markdown as: <code>parseMarkdown(text cpstring) markdown</code>
+### markdownLine (struct)
+An internal structure to define a single line of markdown by its type.
 
 
-##### parseMarkdownInline (function)
-Used for parsing inline markdown (bold, italic, links, images...) as: <code>parseMarkdownInline(line string&ast;) string&ast;</code>
+### markdown (struct)
+A wrapper for the markdown parser.
+__Its methods are:__
+- <code>**str**() cpstring </code> To retreive the document as lines without transpilling it to any other language.
+This is mainly for debugging/verbose purposes.
+- <code>**html**() cpstring </code> To transpille your markdown document as a html document.
+This will return a cpstring containning your markdown document as html code.
 
 
-##### markdown (struct)
-Contains the parsed markdown.<br>Its methods are:
-- <code>html() cpstring</code> to get the parsed markdown as html
+### parseMarkdownInline (func)
+<code>parseMarkdownInline(l string) string </code>
+An internal function to parse every inline element of a line.
+Inline elements are syntax features that do not impact the entire line.
+For instance, the bold delimiter is an inline feature, the hastag at the biginning of a line is not.
 
 
-#### Example
-<code>
-#include "iostream.bah"
-#include "markdown.bah"
-
-main() {
-    
-    article = "# How to write Bah code?
+### parseMarkdown (func)
+<code>parseMarkdown(a cpstring) markdown </code>
+To parse a markdown document.
+This will return a markdown structure that can be then transpilled into html.
 
 
-&gt; It's not that hard
+## Example
+<code> #include "iostream.bah"
+ #include "markdown.bah"
+ main() {
+ article = "# How to write Bah code?
 
+ > It's not that hard
 
-Simply &ast;&ast;smash&ast;&ast; your keyboard!
-"
-
-    md = parseMarkdown(article)
-
-    htmlCode = md.html()
-
-    println(htmlCode)
-
-}
+ Simply **smash** your keyboard
+ "
+ md = parseMarkdown(article)
+ htmlCode = md.html()
+ println(htmlCode)
+ }
 </code>

@@ -24,6 +24,26 @@ __Its methods are:__
 - <code>**getHeader**(name cpstring) cpstring </code> Get a header by name.
 
 
+### HTTP_OK (const)
+HTTP code 200 means everything is ok
+
+
+### HTTP_NOT_FOUND (const)
+HTTP code 404 means file not found
+
+
+### HTTP_FORBIDDEN (const)
+HTTP code 400 means that you deny access to this request
+
+
+### HTTP_ERROR (const)
+HTTP code 500 means that the server encountered an internal error
+
+
+### HTTP_REDIRECT (const)
+HTTP code 301 means a permanent redirection
+
+
 ### http_response (struct)
 A wrapper for HTTP responses. You will be able to set/retreive the headers sent/receive.
 You will encounter this when doing a request or sending a response to the client.
@@ -55,6 +75,12 @@ Used for making simple get request.
 ### post (func)
 <code>post(url cpstring, args string) http_response </code>
 Used for making simple post request with variables (args) formatted as name=value.
+
+
+### isPortAvailable (func)
+<code>isPortAvailable(port int) int </code>
+Checks if a port is available.
+*Note: this command is very slow.*
 
 
 ## Example

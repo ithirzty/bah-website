@@ -1,29 +1,23 @@
-## time.bah
+# time
 
 
-### Functions/Structure/Types
+### time (struct)
+This is a wrapper that makes time manipulations easier.
+By default, its .timestamp field is set to the current time.
+__Its methods are:__
+- <code>**now**() </code> To set the timestamp to the current time.
+- <code>**format**(a cpstring) cpstring </code> To format the timestamp using the specified format.
+The format options can be found [here](https://koor.fr/C/ctime/strftime.wp).
+- <code>**since**() int </code> To get the number of seconds since the timestamp.
 
 
-##### time (struct)
-A wrapper to make handling timestamps easier.<br>Its methods are:
-- <code>now()</code> to set its timestamp to the current one
-- <code>format(format cpstring) cpstring</code> to format the timestamp following the specified format (yea-day-mon hou:min:sec)
-- <code>since() int</code> to calculate how many seconds have past since the timestamp
-
-Its fields are:
-- <code>timestamp</code> the timestamp to use for calculations/formatting
-
-
-#### Example
-<code>
-#include "iostream.bah"
-#include "time.bah"
-
-main() {
-    ts = time{}
-    ts.now()
-
-    formattedTime = ts.format("hou:min:sec")
-    println(formattedTime)
-}
+## Example
+<code> #include "iostream.bah"
+ #include "time.bah"
+ main() {
+ ts = time{}
+ ts.now()
+ formattedTime = ts.format("hou:min:sec")
+ println(formattedTime)
+ }
 </code>

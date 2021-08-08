@@ -1,56 +1,28 @@
-## channel.bah
+# channel
 
 
-### Functions/Structure/Types
+### channel (struct)
+Wrapper for a channel.
+A channel is a queue that is thread safe. It can be safely used between different threads.
+The length of the channel can be capped thanks to the **.cap** field.
+**The channel will need to be destroyed after its utilization.**
+*Note: a queue/channel can only take pointers.*
+__Its methods are:__
+- <code>**send**(data ptr) </code> To send data to the channel.
+This can only send pointers.
+- <code>**receive**() ptr </code> To receive data (a pointer) from the channel.
+Note that this is a blockant operation.
+If no data is available the function will pause the execution of the current thread.
+- <code>**destroy**() </code> To destroy a channel after using it. Not destroying it could result in memory leaks.
+- <code>**len**() int </code> To get the length of the current channel.
+Returns the number of pointers stored inside the channel.
 
 
-##### channel() (function)
-Used for making and initiating a channel as: <code>channel() channel</code>
+### channel (func)
+<code>channel() channel </code>
+To initiate a channel
+*Do not use channel{}, this will not initiate the mutex and the queue.*
 
 
-##### channel (struct)
-A thread safe queue.<br>*Its queue can only contain pointers.*<br>Its methods are:
-- <code>send(data ptr)</code> to send data in the channel
-- <code>receive()ptr</code> to receive data from the channel
-- <code>len() int</code> to get the current channel length (how many elements in queue)
-- <code>destroy()</code> to destroy the current channel. *For memory management purposes, it is needed to destroy a channel when it is no longer in use*.
-
-
-Its fields:
-- <code>cap int</code> the maximum number of elements that can be contained inside the channel<br>Must be set after the call to <code>channel()</code>. Set to -1 for no limit.
-
-
-#### Example
-<code>
-#include "iostream.bah"
-#include "string.bah"
-#include "thread.bah"
-#include "channel.bah"
-
-c channel
-
-test() {
-    for 1 {
-        c.send("test")
-        sleep(1)
-    }
-}
-
-main(){
-
-    c = channel()
-
-    t = thread{}
-    t.handle = &test
-    t.create()
-
-    for 1 {
-    s = c.receive()
-
-    println(<cpstring>s)
-    }
-
-    c.destroy()
-
-}
-</code>
+## Example
+<code></code>
