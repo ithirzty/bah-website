@@ -49,7 +49,7 @@ A wrapper for HTTP responses. You will be able to set/retreive the headers sent/
 You will encounter this when doing a request or sending a response to the client.
 __Its methods are:__
 - <code>**send**() </code> Send the response.
-&ast;Use it only when sending response to the client from a http_server&ast;.
+*Use it only when sending response to the client from a http_server*.
 - <code>**setHeader**(name cpstring, value cpstring) </code> To set a header by name.
 - <code>**getHeader**(name cpstring) cpstring </code> To get the value of a header by name.
 - <code>**write**(content cpstring) </code> To append to the body of the response.
@@ -58,7 +58,7 @@ __Its methods are:__
 ### makeRawHttpsRequest (func)
 <code>makeRawHttpsRequest(host cpstring, message cpstring) cpstring </code>
 Used for making TLS requests.
-&ast;This is an internal function, you should know what you're doing if you decide to use it.&ast;
+*This is an internal function, you should know what you're doing if you decide to use it.*
 
 
 ### makeRawRequest (func)
@@ -80,11 +80,11 @@ Used for making simple post request with variables (args) formatted as name=valu
 ### isPortAvailable (func)
 <code>isPortAvailable(port int) int </code>
 Checks if a port is available.
-&ast;Note: this command is very slow.&ast;
+*Note: this command is very slow.*
 
 
 ## Example
-<code> #include "http.bah"
+<code> &#35;include "http.bah"
 
 
  server(serv http_server&ast;, connfd int) int {
@@ -92,7 +92,7 @@ Checks if a port is available.
      request = http_request(connfd)
      response = http_response(connfd)
 
-     response.setHeader("Content-Type", "text/html")
+     response.setHeader("Content&&#35;45;Type", "text/html")
 
      response.write("Current path:")
      response.write(request.path)

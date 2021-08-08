@@ -24,7 +24,8 @@ Print an error to the terminal and exits the program.
 
 ### fileStream (struct)
 A wrapper that makes file manipulation easier.
-&ast;Note: after openning a file, you will need to close it.&ast;
+*Note: after openning a file, you will need to close it.*
+**Warning:** fileStream can be many, many times slower than fileMap.
 __Its methods are:__
 - <code>**isValid**() int </code> Checks if the current opened file is valid or not.
 - <code>**open**(path cpstring, mode cpstring) </code> Opens a file by its name.
@@ -58,7 +59,7 @@ Checks if a file exists.
 
 
 ## Example
-<code> #include "iostream.bah"
+<code> &#35;include "iostream.bah"
  main() {
  fs = fileStream{}
  fs.open("./myFile.txt", "r")

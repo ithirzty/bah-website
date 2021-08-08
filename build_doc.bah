@@ -1,6 +1,7 @@
 #include "iostream.bah"
 #include "flags.bah"
 #include "string.bah"
+#include "markdown.bah"
 
 
 isFuncDecl(line string) cpstring {
@@ -71,7 +72,6 @@ getComments(lines []string, i int) cpstring {
         }
         ii--
     }
-    doc.replace("*", "&ast;")
     return doc.str()
 }
 
@@ -129,7 +129,7 @@ main(args []cpstring) {
             elem.name = name
             doc = string(getComments(lines, i))
             line.trimRight(1)
-            line.replace("*", "&ast;")
+            escapeMarkdownHTML(&line)
             line.prepend("<code>")
             line.append("</code>\n")
             doc.prepend(line)
@@ -158,7 +158,7 @@ main(args []cpstring) {
 
                         l.trimLeft(strlen(methodName))
                         l.trimRight(1)
-                        l.replace("*", "&ast;")
+                        escapeMarkdownHTML(&l)
                         doc.append(l)
                         doc.append("</code> ")
                         doc.append(getComments(lines, i))
@@ -199,7 +199,7 @@ main(args []cpstring) {
                         break
                     }
                     l.trimLeft(2)
-                    l.replace("*", "&ast;")
+                    escapeMarkdownHTML(&l)
                     example.append(l)
                     example.append("\n")
                     i++

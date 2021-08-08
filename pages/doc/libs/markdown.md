@@ -32,15 +32,21 @@ To parse a markdown document.
 This will return a markdown structure that can be then transpilled into html.
 
 
+### escapeMarkdownHTML (func)
+<code>escapeMarkdownHTML(s string&ast;) </code>
+This escapes every character that the markdown parser could take as markdown code.
+It is not meant to be ran on your main markdown document but rather on some parts that you dont want to be taken as markdown.
+
+
 ## Example
-<code> #include "iostream.bah"
- #include "markdown.bah"
+<code> &#35;include "iostream.bah"
+ &#35;include "markdown.bah"
  main() {
- article = "# How to write Bah code?
+ article = "&#35; How to write Bah code?
 
- > It's not that hard
+ &gt; It's not that hard
 
- Simply **smash** your keyboard
+ Simply &ast;&ast;smash&ast;&ast; your keyboard
  "
  md = parseMarkdown(article)
  htmlCode = md.html()
