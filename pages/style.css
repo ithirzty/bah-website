@@ -14,31 +14,30 @@ pre {
     border-radius: 5px;
     height:280px;
 }
-
-span_string {
+span.string, span_string {
     color:rgb(245 147 44 / 91%) !important
 }
-span_func {
+span.func, span_func {
     color:rgb(247 243 87 / 88%)
 }
-span_block {
+span.block, span_block {
     color:rgb(17 132 255 / 94%)
 }
-span_type {
+span.type, span_type {
     color:rgb(73 255 206 / 77%)
 }
-span_var {
+span.var, span_var {
     color:rgb(255 255 255 / 90%)
 }
-span_num {
+span.num, span_num {
     color:rgb(135 255 134 / 87%)
 }
-span_keyword {
+span.keyword, span_keyword {
     color:rgb(236 150 185 / 87%)
 }
-span_none {
+span.none, span_none {
     color: rgb(255 255 255 / 45%)
 }
-span_syntax {
+span.syntax, span_syntax {
     color: rgb(151 224 255 / 66%)
 }
