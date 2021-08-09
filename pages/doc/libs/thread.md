@@ -30,8 +30,9 @@ This initiates a mutex and returns it.
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "thread.bah"
+```bah
+ &#35;include "iostream.bah"
+ &#35;include "thread.bah"
  printHello() {
  println("Hello")
  }
@@ -42,4 +43,4 @@ This initiates a mutex and returns it.
  t.wait()
  }
 
-</code>
+```

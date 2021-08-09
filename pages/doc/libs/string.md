@@ -103,8 +103,9 @@ Used to lowe-case a string.
 
 
 ## Example
-<code>#include "iostream.bah"
-#include "string.bah"
+```bah
+&#35;include "iostream.bah"
+&#35;include "string.bah"
 
  main() {
      a = string("I code in ")
@@ -118,4 +119,4 @@ Used to lowe-case a string.
      b.append(" years old")
      println(b)
  }
-</code>
+```

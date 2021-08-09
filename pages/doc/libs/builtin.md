@@ -8,4 +8,5 @@ This only works on arrays.
 
 
 ## Example
-<code></code>
+```bah
+```

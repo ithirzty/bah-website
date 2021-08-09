@@ -16,12 +16,13 @@ If the variable passed to the #reflect() macro is of type ptr, the macro will no
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "reflect.bah"
- #include "string.bah"
+```bah
+ &num;include "iostream.bah"
+ &num;include "reflect.bah"
+ &num;include "string.bah"
  printReflected(p reflectedPointer) {
      if p.type.compare("int") {
-         i int = <int>p.ptr
+         i int = &lt;int&gt;p.ptr
          s = intToString(i)
          println(s)
      } else if p.type.compare("cpstring") {
@@ -33,6 +34,6 @@ If the variable passed to the #reflect() macro is of type ptr, the macro will no
  }
  main() {
      i = 54
-     printReflected(#reflect(i))
+     printReflected(&num;reflect(i))
  }
-</code>
+```

@@ -25,4 +25,5 @@ To initiate a channel
 
 
 ## Example
-<code></code>
+```bah
+```

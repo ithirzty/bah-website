@@ -225,9 +225,9 @@ main(args []cpstring) {
         doc.append("\n\n")
         i++
     }
-    doc.append("## Example\n<code>")
+    doc.append("## Example\n```bah\n")
     doc.append(example)
-    doc.append("</code>")
+    doc.append("```")
     
     fileName.prepend("./pages/doc/libs/")
     fileName.append(".md")

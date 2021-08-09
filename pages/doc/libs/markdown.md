@@ -39,7 +39,8 @@ It is not meant to be ran on your main markdown document but rather on some part
 
 
 ## Example
-<code> &#35;include "iostream.bah"
+```bah
+ &#35;include "iostream.bah"
  &#35;include "markdown.bah"
  main() {
  article = "&#35; How to write Bah code?
@@ -52,4 +53,4 @@ It is not meant to be ran on your main markdown document but rather on some part
  htmlCode = md.html()
  println(htmlCode)
  }
-</code>
+```

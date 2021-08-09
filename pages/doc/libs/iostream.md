@@ -26,6 +26,7 @@ Print an error to the terminal and exits the program.
 A wrapper that makes file manipulation easier.
 *Note: after openning a file, you will need to close it.*
 **Warning:** fileStream can be many, many times slower than fileMap.
+So it is recommended to **use fileMap as much as possible**.
 __Its methods are:__
 - <code>**isValid**() int </code> Checks if the current opened file is valid or not.
 - <code>**open**(path cpstring, mode cpstring) </code> Opens a file by its name.
@@ -41,9 +42,10 @@ The differents modes can be found [here](https://koor.fr/C/cstdio/fopen.wp).
 
 ### fileMap (struct)
 A wrapper to make file direct operation, wihtout needing to write file on changes.
-This is faster than the fileStream but every modification made to the returned string will be directly made to the file.
+**This is way faster than the fileStream** but every modification made to the returned string will be directly made to the file.
 __Its methods are:__
 - <code>**open**(fileName cpstring) cpstring </code> To open a file inside the fileMap.
+It returns the content of the file as cpstring.
 - <code>**isValid**() int </code> Check if file is valid or not.
 - <code>**close**() </code> To close a file after you are done working on it.
 
@@ -59,7 +61,8 @@ Checks if a file exists.
 
 
 ## Example
-<code> &#35;include "iostream.bah"
+```bah
+ &#35;include "iostream.bah"
  main() {
  fs = fileStream{}
  fs.open("./myFile.txt", "r")
@@ -67,4 +70,4 @@ Checks if a file exists.
  println(fileContent)
  fs.close()
  }
-</code>
+```

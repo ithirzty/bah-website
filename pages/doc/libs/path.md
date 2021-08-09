@@ -14,12 +14,13 @@ The working path is the path to the directory that is defined as **./**.
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "path.bah"
+```bah
+ &#35;include "iostream.bah"
+ &#35;include "path.bah"
  main() {
  currentPath = getCurrentPath()
  println(currentPath)
  filePath = absPath("./file.txt")
  println(filePath)
  }
-</code>
+```

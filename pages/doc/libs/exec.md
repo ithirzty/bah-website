@@ -22,4 +22,5 @@ Note that this will take the current proccess.
 
 
 ## Example
-<code></code>
+```bah
+```

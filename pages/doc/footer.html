@@ -14,6 +14,48 @@ if ({isapp}) {
                 })
             }, 1000)
 }
+
+$("pre").each(function(){
+    code = $(this).html()
+
+    $(this).css("color", "rgb(255 255 255 / 90%)")
+    
+    
+    code = code.replace(/(".*")/g,function(a, b){
+        return  "<span_string>"+b+"</span_string>"
+    })
+
+    code = code.replace(/(\w+)\(/g,function(a, b){
+        return  "<span_func>"+b+"</span_func>("
+    })
+
+    code = code.replace(/(\d+)/g,function(a, b){
+        return  "<span_num>"+b+"</span_num>"
+    })
+
+    code = code.replace(/(\#\w+)/g,function(a, b){
+        return  "<span_none>"+b+"</span_none>"
+    })
+
+    code = code.replace(/(\(|\)|\{|\}|\.|\*)/g,function(a, b){
+        return  "<span_syntax>"+b+"</span_syntax>"
+    })
+
+    code = code.replace(/(\[\])/g,function(a, b){
+        return  "<span_block>"+b+"</span_block>"
+    })
+
+    code = code.replace(/\b(if|for|continue|break|else)\b/g,function(a, b){
+        return  "<span_keyword>"+b+"</span_keyword>"
+    })
+
+    
+
+    
+
+    $(this).html(code)
+})
+
 </script>
 </body>
 </html>

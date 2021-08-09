@@ -53,10 +53,11 @@ Shared memory can be shared between two processes (after the use of fork()).
 
 
 ## Example
-<code> #include "string.bah"
- #include "memory.bah"
+```bah
+ &#35;include "string.bah"
+ &#35;include "memory.bah"
  main() {
      a cpstring = memoryAlloc(30)
      strcpy(a, "Hi!")
  }
-</code>
+```

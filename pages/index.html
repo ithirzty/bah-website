@@ -3,17 +3,120 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=/doc/syntax">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
 
     <title>Bah Lang</title>
 </head>
 <body>
-    
-    
+    <style>
+        .row {
+            border-radius: 4px;
+            padding:10px;
+        }
+        .row.refs {
+            background-color: rgba(0,0,0,0.04);
+        }
+        .box h3 {
+            text-align: center;
+        }
+        #mainArgs {
+            outline: none !important;
+        }
+    </style>
+    <h1>Bah lang</h1>
+
+    <p><b>Bah is a really fast multi-purpose language.</b> It can build web servers (this website's backend was written in bah), easy and fast string manipulation, etc...<br>
+        It achieves all of that without the hassle of managing your memory!<br>Bah can be as low level as you want, with support for C librairies (with their bindings).
+        The compiler is fast and really minimalist and all builtin librairies are cross-platform.
+    </p>
+
+    <div class="row refs">
+        <div class="col-sm-0 col-md-2"></div>
+        <div class="col-sm-12 col-md-4 box">
+            <h3>Install</h3>
+            <p>In order to install bah-lang, follow the tutorial on <a target="_blank" href="https://github.com/ithirzty/bahv4-installer">github</a>.
+            You will need <b>git</b> to update bah in the future.<br>
+            <a href="https://github.com/ithirzty/bahv4-installer/archive/refs/heads/main.zip" class="btn btn-primary">Download</a>
+            </p>
+        </div>
+        <div class="col-sm-12 col-md-4 box">
+            <h3>Documentation</h3>
+            You can see the source of this website + documentation on <a target="_blank" href="https://github.com/ithirzty/bah-website">github</a> 
+            where you can find an offline version of the documentation and the tools necessary to generate/edit your own documentation.<br>
+            <a href="/doc/syntax" class="btn btn-primary">Browse documentation</a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <pre>
+#include <span class="string">"iostream.bah"</span>
+
+<span class="func">main</span>(<span class="var">args</span> <span class="block">[]</span><span class="type">cpstring</span>) {
+    <span class="func">print</span>(<span class="string">"Hello "</span>)
+    <span class="var">i</span> = <span class="num">0</span>; <span class="keyword">for</span> <span class="var">i</span> &lt; <span class="func">len</span>(<span class="var">args</span>) {
+        <span class="func">println</span>(<span class="var">args</span><span class="block">[<span class="var">i</span>]</span>)
+        <span class="var">i</span>++
+    }
+}
+            </pre>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <pre id="console">
+  <span class="type">$</span> <span class="var">bah</span> ./main.bah
+Lexed in 0.000492225s.
+Parsed in 0.076664903s.
+<span class="num">Done (887 lines compiled in 0.293805843s).</span>
+  <span class="type">$</span> <span class="var">./main</span> <span id="mainArgs" contenteditable="true">"world"</span></pre>
+        </div>
+
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("#console").click(function(){
+                $("#mainArgs").focus()
+            })
+            $("#mainArgs").focus()
+            function placeCaretAtEnd(el) {
+                el.focus();
+                if (typeof window.getSelection != "undefined"
+                        && typeof document.createRange != "undefined") {
+                    var range = document.createRange();
+                    range.selectNodeContents(el);
+                    range.collapse(false);
+                    var sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else if (typeof document.body.createTextRange != "undefined") {
+                    var textRange = document.body.createTextRange();
+                    textRange.moveToElementText(el);
+                    textRange.collapse(false);
+                    textRange.select();
+                }
+            }
+
+            placeCaretAtEnd( document.querySelector('#mainArgs') )
+            $("#mainArgs").on("keypress", e=>{
+                if (e.keyCode == 13) {
+                    e.preventDefault()
+                    $("#mainArgs").attr("contenteditable", "false")
+                    strReg = /("[\w ]+"|\w+)/g
+                    strs = [...$("#mainArgs").text().matchAll(strReg)]
+                    $("#console").append("\nHello ")
+                    strs.forEach(str=>{
+                        $("#console").append(str[0].replace(/"/g, "")+"\n")
+                    })
+                }
+            })
+        })
+    </script>
+
 </body>
 </html>

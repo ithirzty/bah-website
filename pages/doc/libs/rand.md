@@ -21,11 +21,12 @@ This is slower than the PRNG but cannot be predicted. It does not need to be see
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "rand.bah"
+```bah
+ &#35;include "iostream.bah"
+ &#35;include "rand.bah"
  main() {
  i = randomInRange(0, 100)
  s = intToString(i)
  println(s)
  }
-</code>
+```

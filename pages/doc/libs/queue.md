@@ -24,8 +24,9 @@ This method does not matter about the key of the element.
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "queue.bah"
+```bah
+ &#35;include "iostream.bah"
+ &#35;include "queue.bah"
  main() {
  queue = queue{}
  queue.insert("a")
@@ -35,4 +36,4 @@ This method does not matter about the key of the element.
  s = queue.pop()
  println(s) //will print b
  }
-</code>
+```

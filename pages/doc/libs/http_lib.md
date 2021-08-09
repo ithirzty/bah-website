@@ -84,7 +84,8 @@ Checks if a port is available.
 
 
 ## Example
-<code> &#35;include "http.bah"
+```bah
+ &num;include "http.bah"
 
 
  server(serv http_server&ast;, connfd int) int {
@@ -92,7 +93,7 @@ Checks if a port is available.
      request = http_request(connfd)
      response = http_response(connfd)
 
-     response.setHeader("Content&&#35;45;Type", "text/html")
+     response.setHeader("Content&minus;Type", "text/html")
 
      response.write("Current path:")
      response.write(request.path)
@@ -111,4 +112,4 @@ Checks if a port is available.
      s.listenAndServe()
 
  }
-</code>
+```

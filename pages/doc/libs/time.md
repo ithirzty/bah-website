@@ -12,12 +12,13 @@ The format options can be found [here](https://koor.fr/C/ctime/strftime.wp).
 
 
 ## Example
-<code> #include "iostream.bah"
- #include "time.bah"
+```bah
+ &#35;include "iostream.bah"
+ &#35;include "time.bah"
  main() {
  ts = time{}
  ts.now()
  formattedTime = ts.format("hou:min:sec")
  println(formattedTime)
  }
-</code>
+```

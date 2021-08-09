@@ -64,7 +64,8 @@ This is used to parse a regex expression and returns a pointer to its instance.
 
 
 ## Example
-<code> &#35;include "iostream.bah"
+```bah
+ &#35;include "iostream.bah"
  &#35;include "string.bah"
  &#35;include "regex.bah"
  &#35;include "array.bah"
@@ -87,4 +88,4 @@ This is used to parse a regex expression and returns a pointer to its instance.
  }
  }
 
-</code>
+```
