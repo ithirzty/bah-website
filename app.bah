@@ -102,6 +102,7 @@ createChrome(port int) {
     cmdS = intToString(port)
     cmdS.prepend(" --app=http://localhost:")
     cmdS.prepend(locateChrome())
+    cmdS.append("/doc/syntax")
     cmd = command(cmdS)
     cmd.run()
 }

@@ -13,6 +13,10 @@ if ({isapp}) {
                     }
                 })
             }, 1000)
+} else {
+    if (location.protocol !== 'https:') {
+        location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
 }
 
 $("pre").each(function(){
