@@ -46,7 +46,7 @@ isFuncDecl(line string) cpstring {
         i--
     }
 
-    return arrToStr(name)
+    return arrAsStr(name)
 
 }
 

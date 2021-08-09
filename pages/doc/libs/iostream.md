@@ -62,7 +62,7 @@ Checks if a file exists.
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
+ &num;include "iostream.bah"
  main() {
  fs = fileStream{}
  fs.open("./myFile.txt", "r")
