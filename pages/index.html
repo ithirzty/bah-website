@@ -24,28 +24,43 @@
         #mainArgs {
             outline: none !important;
         }
+        #nbStars {
+            font-size: 12px;
+            position: relative;
+            float:right;
+            top: 6px;
+        }
     </style>
     <h1>Bah lang</h1>
 
     <p><b>Bah is a really fast multi-purpose language.</b> It can build web servers (this website's backend was written in bah), easy and fast string manipulation, etc...<br>
         It achieves all of that without the hassle of managing your memory!<br>Bah can be as low level as you want, with support for C libraries (with their bindings).
-        The compiler is fast, minimalist and all builtin libraries are cross-platform.
+        Its compiler is fast, minimalist.
     </p>
 
     <div class="row refs">
         <div class="col-sm-0 col-md-2"></div>
         <div class="col-sm-12 col-md-4 box">
             <h3>Install</h3>
-            <p>In order to install bah-lang, follow the tutorial on <a target="_blank" href="https://github.com/ithirzty/bah">github</a>.
-            You will need <b>git</b> to update bah in the future.<br>
-            <a href="https://github.com/ithirzty/bah/archive/refs/heads/main.zip" class="btn btn-primary">Download</a>
+            <p style="text-align: justify;">In order to install bah-lang, follow the tutorial on <a target="_blank" href="https://github.com/ithirzty/bah">github</a>.
+            You will need <b>git</b> to update bah in the future. The bah compiler comes bundle with standard librairies and install/update tools.
+            It only supports linux for the moment.<br>
+            <div class="row">
+                <div class="col-sm-0 col-md-2"></div>
+                <a href="https://github.com/ithirzty/bah" class="col-sm-12 col-md-8 btn btn-dark btn-lg" id="githubBtn">Github <span style="color:#a3a3a3">ithirzty/bah</span> <span id="nbStars">...</span></a>
+            </div>
             </p>
         </div>
         <div class="col-sm-12 col-md-4 box">
             <h3>Documentation</h3>
+            <p style="text-align: justify;">
             You can see the source of this website + documentation on <a target="_blank" href="https://github.com/ithirzty/bah-website">github</a> 
             where you can find an offline version of the documentation and the tools necessary to generate/edit your own documentation.<br>
-            <a href="/doc/syntax" class="btn btn-primary">Browse documentation</a>
+            <div class="row">
+                <div class="col-sm-0 col-md-2"></div>
+                <a href="/doc/syntax" class="col-sm-12 col-md-8 btn btn-primary btn-lg">Browse documentation</a>
+            </div>
+            </p>
         </div>
     </div>
     <br>
@@ -73,6 +88,28 @@
 
     </div>
 
+    <p>
+        <h3>Why?</h3>
+        Most low level languages come with complexe code that can quickly become hard to read. Higher level languages may lead the user to write the
+        most simple code possible without making any optimization.<br>
+        Bah ties to find a middle ground where it can be as fast as C (faster in some instances) while still being readable thanks to its minimalist
+        syntax.<br>
+        Every element that is not needed (such as ';' at the end of lines) are not needed, making for cleanner code.
+    </p>
+
+    <p>
+        <h3>Speed</h3>
+        Go is a language that has a syntax similar to Bah, that took inspiration from it. In some tests, Bah can be as much as <b>2 times faster than Go</b>.<br>
+        This last statistic has been taken from compilation speeds of the old compiler (written in Go) and the new compiler (written in Bah).<br>
+        That gap can be explained mostly because Go doesn't encourage the user to use pointers meanning that most variable will need to be entierly copied
+        in each scope, but also because Go runtime can be quite consumming.<br>
+        On the same machine, the new compiler (~4500 lines) was compiled with:<br>
+        <ul>
+            <li><b>the Go written compiler:</b> in 1.4-1.6s</li>
+            <li><b>the Bah written compiler:</b> in 750-950ms.</li>
+        </ul>
+        Optimizations to the language and the compiler are still being made to make it faster.
+    </p>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -81,11 +118,18 @@
         //     location.replace(`https:${location.href.substring(location.protocol.length)}`);
         // }
 
+        
         $(document).ready(function(){
+            fetch("https://api.github.com/repos/ithirzty/bah").then(resp => {
+                resp.json().then(respJson => {
+                    $("#nbStars").text("🌟"+respJson.stargazers_count)
+                })
+            })
+            
+            $("#githubBtn").append("")
             $("#console").click(function(){
                 $("#mainArgs").focus()
             })
-            $("#mainArgs").focus()
             function placeCaretAtEnd(el) {
                 el.focus();
                 if (typeof window.getSelection != "undefined"
@@ -104,7 +148,7 @@
                 }
             }
 
-            placeCaretAtEnd( document.querySelector('#mainArgs') )
+            placeCaretAtEnd( document.querySelector('#mainArgs'))
             $("#mainArgs").on("keypress", e=>{
                 if (e.keyCode == 13) {
                     e.preventDefault()
