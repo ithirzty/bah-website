@@ -11,10 +11,16 @@ The format options can be found [here](https://koor.fr/C/ctime/strftime.wp).
 - <code>**since**() int </code> To get the number of seconds since the timestamp.
 
 
+### getTimeUnix (func)
+<code>getTimeUnix() int </code>
+Returns the current timestamp in nanoseconds.
+One nano second looks like this: 0000000000000000001.
+
+
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "time.bah"
+ &num;include "iostream.bah"
+ &num;include "time.bah"
  main() {
  ts = time{}
  ts.now()

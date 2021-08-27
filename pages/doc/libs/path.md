@@ -15,8 +15,8 @@ The working path is the path to the directory that is defined as **./**.
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "path.bah"
+ &num;include "iostream.bah"
+ &num;include "path.bah"
  main() {
  currentPath = getCurrentPath()
  println(currentPath)

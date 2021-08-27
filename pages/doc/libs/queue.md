@@ -25,8 +25,8 @@ This method does not matter about the key of the element.
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "queue.bah"
+ &num;include "iostream.bah"
+ &num;include "queue.bah"
  main() {
  queue = queue{}
  queue.insert("a")

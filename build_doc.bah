@@ -11,7 +11,7 @@ isFuncDecl(line string) cpstring {
         c = line.charAt(i)
         if isSpace(c) {
             if len(name) == 0 {
-                i++
+                i = i + 1
                 continue
             }
         }
@@ -25,7 +25,7 @@ isFuncDecl(line string) cpstring {
         } else {
             name[len(name)] = c
         }
-        i++
+        i = i + 1
     }
 
     if foundPar == 0 {
@@ -35,7 +35,7 @@ isFuncDecl(line string) cpstring {
     i=line.length-1; for i >= 0 {
         c = line.charAt(i)
         if isSpace(c) {
-            i--
+            i = i - 1
             continue
         }
         if c != '{' {
@@ -43,7 +43,7 @@ isFuncDecl(line string) cpstring {
         } else {
             break
         }
-        i--
+        i = i - 1
     }
 
     return arrAsStr(name)
@@ -62,15 +62,15 @@ getComments(lines []string, i int) cpstring {
         l = lines[ii]
         l.trim()
         if l.hasPrefix("//") {
-            dl = string(l)
+            dl = string(l.str())
             dl.trimLeft(2)
             dl.append("\n")
             dl.trim()
-            doc.prepend(dl)
+            doc.prepend(dl.str())
         } else {
             break
         }
-        ii--
+        ii = ii - 1
     }
     return doc.str()
 }
@@ -118,7 +118,7 @@ main(args []cpstring) {
         line.trim()
 
         if line.length == 0 {
-            i++
+            i = i + 1
             continue
         }
         name = isFuncDecl(line)
@@ -132,7 +132,7 @@ main(args []cpstring) {
             escapeMarkdownHTML(&line)
             line.prepend("<code>")
             line.append("</code>\n")
-            doc.prepend(line)
+            doc.prepend(line.str())
             elem.doc = doc.str()
             elems[len(elems)] = elem
         } else {
@@ -159,7 +159,7 @@ main(args []cpstring) {
                         l.trimLeft(strlen(methodName))
                         l.trimRight(1)
                         escapeMarkdownHTML(&l)
-                        doc.append(l)
+                        doc.append(l.str())
                         doc.append("</code> ")
                         doc.append(getComments(lines, i))
                         doc.trimRight(1)
@@ -169,7 +169,7 @@ main(args []cpstring) {
                     if nbBraces == 0 {
                         break
                     }
-                    i++
+                    i = i + 1
                 }
 
                 if foundMethods == 0 {
@@ -192,7 +192,7 @@ main(args []cpstring) {
                 elems[len(elems)] = elem
 
             } else if line.compare("//Example") {
-                i++; for i < len(lines) {
+                i = i + 1; for i < len(lines) {
                     l = lines[i]
                     l.trim()
                     if l.hasPrefix("//") == 0 {
@@ -200,18 +200,18 @@ main(args []cpstring) {
                     }
                     l.trimLeft(2)
                     escapeMarkdownHTML(&l)
-                    example.append(l)
+                    example.append(l.str())
                     example.append("\n")
-                    i++
+                    i = i + 1
                 }
             }
         }
 
-        i++
+        i = i + 1
     }
 
     doc = string("# ")
-    doc.append(fileName)
+    doc.append(fileName.str())
     doc.append("\n\n\n")
 
     i=0; for i < len(elems) {
@@ -223,18 +223,18 @@ main(args []cpstring) {
         doc.append(")\n")
         doc.append(e.doc)
         doc.append("\n\n")
-        i++
+        i = i + 1
     }
     doc.append("## Example\n```bah\n")
-    doc.append(example)
+    doc.append(example.str())
     doc.append("```")
     
     fileName.prepend("./pages/doc/libs/")
     fileName.append(".md")
     
     fs = fileStream{}
-    fs.open(fileName, "w")
-    fs.writeFile(doc)
+    fs.open(fileName.str(), "w")
+    fs.writeFile(doc.str())
     fs.close()
 
 }

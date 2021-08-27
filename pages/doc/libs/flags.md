@@ -45,8 +45,8 @@ The arguments specified should be the arguments passed in your declaration of ma
 
 ## Example
 ```bah
-&#35;include "iostream.bah"
-&#35;include "flags.bah"
+&num;include "iostream.bah"
+&num;include "flags.bah"
  main(args []cpstring) {
      flags = flags{}
      flags.addString("name", "Your name")

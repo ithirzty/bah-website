@@ -22,8 +22,8 @@ This is slower than the PRNG but cannot be predicted. It does not need to be see
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "rand.bah"
+ &num;include "iostream.bah"
+ &num;include "rand.bah"
  main() {
  i = randomInRange(0, 100)
  s = intToString(i)

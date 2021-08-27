@@ -65,10 +65,10 @@ This is used to parse a regex expression and returns a pointer to its instance.
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "string.bah"
- &#35;include "regex.bah"
- &#35;include "array.bah"
+ &num;include "iostream.bah"
+ &num;include "string.bah"
+ &num;include "regex.bah"
+ &num;include "array.bah"
  main(){
  regex = compileRegex("\\w+(\\d)\\w&ast;B(.{1,3})")
  if regex == 0 {
@@ -76,16 +76,4 @@ This is used to parse a regex expression and returns a pointer to its instance.
  }
  test = "dsasd65gdfdfgBf"
  if regex.matchString(test) {
- println("It matches")
- res = regex.findAllSubstring(test)
- i = 0;for i < len(res) {
- s = res[i]
- println(s)
- i++
- }
- } else {
- println("Sad little string got no match...")
- }
- }
-
 ```

@@ -60,6 +60,11 @@ Returns a list of all files found inside the specified directory.
 Checks if a file exists.
 
 
+### removeFile (func)
+<code>removeFile(name cpstring) bool </code>
+Removes a file. 'name' should be the file name, returns true if the file was deleted.
+
+
 ## Example
 ```bah
  &num;include "iostream.bah"

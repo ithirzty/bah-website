@@ -16,6 +16,12 @@
 ### SIZE_OF_FLOAT (const)
 
 
+### len (func)
+<code>len(a ptr) int </code>
+Will return the length of an array.
+This only works on arrays.
+
+
 ### memoryAlloc (func)
 <code>memoryAlloc(s int) ptr </code>
 Used for allocating memory (malloc in c). You must specify the size of the block to allocate.
@@ -39,10 +45,26 @@ Append will add the array b to the array a.
 Note: doesn't work with []char.
 
 
+### copy (func)
+<code>copy(a ptr, b ptr) </code>
+
+
 ### memoryRealloc (func)
-<code>memoryRealloc(p ptr, s int) </code>
+<code>memoryRealloc(p ptr, s int) ptr </code>
 Will realloc memory to a specified pointer.
 *The data contained in the block of memory is not necessarly preserved.*
+
+
+### PROT_READ (const)
+
+
+### PROT_WRITE (const)
+
+
+### MAP_SHARED (const)
+
+
+### MAP_ANONYMOUS (const)
 
 
 ### sharedMemory (func)
@@ -54,8 +76,8 @@ Shared memory can be shared between two processes (after the use of fork()).
 
 ## Example
 ```bah
- &#35;include "string.bah"
- &#35;include "memory.bah"
+ &num;include "string.bah"
+ &num;include "memory.bah"
  main() {
      a cpstring = memoryAlloc(30)
      strcpy(a, "Hi!")

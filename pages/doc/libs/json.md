@@ -33,8 +33,8 @@ This will return a pointer to the main element.
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "json.bah"
+ &num;include "iostream.bah"
+ &num;include "json.bah"
  main() {
  unparsed = "[54, {\"key\":[0,1]}, \"element\"]"
  json = parseJson(unparsed)

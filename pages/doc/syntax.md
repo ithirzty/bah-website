@@ -1,12 +1,12 @@
 ## Bah's Syntax
 **Bah's syntax is a mix of [Go](https://golang.org/) and [C](https://fr.wikipedia.org/wiki/C_%28langage%29) syntax with it's own touch.**
 Here is a hello world in bah:
-<code>
-#include iostream.bah
+```bah
+#include "iostream.bah"
 main() {
     println("Hello world")
 }
-</code>
+```
 
 > The standard in Bah is **camel case** where there should be a space.
 

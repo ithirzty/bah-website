@@ -16,8 +16,6 @@ Every other thread trying to lock it will need to wait for it to be unlocked.
 ### thread (struct)
 A wrapper for a thread.
 __Its methods are:__
-- <code>**handle**(id int) </code> This will need to ne set by the user.
-The specified function will be the entry point for the thread.
 - <code>**create**() </code> This will launch the thread.
 - <code>**createWithArg**(arg ptr) </code> This will launch the thread by passing to its entry point funtion an argument.
 The argument can only be a pointer.
@@ -31,8 +29,8 @@ This initiates a mutex and returns it.
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "thread.bah"
+ &num;include "iostream.bah"
+ &num;include "thread.bah"
  printHello() {
  println("Hello")
  }
@@ -42,5 +40,4 @@ This initiates a mutex and returns it.
  t.create()
  t.wait()
  }
-
 ```
