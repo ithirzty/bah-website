@@ -5,7 +5,7 @@
 #include "flags.bah"
 #include "markdown.bah"
 
-BASE_PATH = "./pages"
+const BASE_PATH = "./pages"
 
 
 parsePath(p cpstring) string {
@@ -18,7 +18,7 @@ parsePath(p cpstring) string {
     return path
 }
 
-server(serv http_server*, connfd int) int {
+server(serv http_server*, connfd int) {
 
     req = http_request(connfd)
     resp = http_response(connfd)
@@ -35,7 +35,7 @@ server(serv http_server*, connfd int) int {
         resp.write(header)
 
         path.append(".md")
-        mdf = fs.open(path)
+        mdf = fs.open(path.str())
 
         if fs.isValid() == 0 {
             mdf = "
@@ -54,10 +54,10 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
         footerS = string(footer)
         footerS.replace("{isapp}", "false")
         fs.close()
-        resp.write(footerS)
+        resp.write(footerS.str())
         
     } else {
-        page = fs.open(path)
+        page = fs.open(path.str())
         fs.close()
         resp.write(page)
     }
@@ -65,7 +65,6 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
 
 
     resp.send()
-    return 0
 }
 
 s http_server
@@ -86,7 +85,7 @@ main(args []cpstring) {
         println("-port argument not passsed, defaulting to port 8080.")
         s.port = 8080
     }
-    s.handle = &server
+    s.handle = server
     signal(noCheck(SIGINT), &stopServer)
     s.listenAndServe()
 }

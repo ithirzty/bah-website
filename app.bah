@@ -5,9 +5,10 @@
 #include "markdown.bah"
 #include "thread.bah"
 
-BASE_PATH = "./pages"
+const BASE_PATH = "./pages"
 
 COOLDOWN int*
+
 
 parsePath(p cpstring) string {
     path = string(p)
@@ -19,7 +20,7 @@ parsePath(p cpstring) string {
     return path
 }
 
-server(serv http_server*, connfd int) int {
+server(serv http_server*, connfd int) {
 
     req = http_request(connfd)
     resp = http_response(connfd)
@@ -34,7 +35,7 @@ server(serv http_server*, connfd int) int {
     if path.compare("/ping") {
         resp.write("ok")
         resp.send()
-        return 0
+        return
     }
 
        fs = fileMap{}
@@ -45,7 +46,7 @@ server(serv http_server*, connfd int) int {
         resp.write(header)
 
         path.append(".md")
-        mdf = fs.open(path)
+        mdf = fs.open(path.str())
 
         if fs.isValid() == 0 {
             mdf = "
@@ -64,10 +65,10 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
         footerS = string(footer)
         footerS.replace("{isapp}", "true")
         fs.close()
-        resp.write(footerS)
+        resp.write(footerS.str())
         
     } else {
-        page = fs.open(path)
+        page = fs.open(path.str())
         fs.close()
         resp.write(page)
     }
@@ -75,40 +76,38 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
 
 
     resp.send()
-    return 0
 }
 
 locateChrome() cpstring {
-    paths = []cpstring
-    paths[0] = "/usr/bin/google-chrome-stable"
-    paths[1] = "/usr/bin/google-chrome"
-    paths[2] = "/usr/bin/chromium"
-    paths[3] = "/usr/bin/chromium-browser"
-    paths[4] = "/snap/bin/chromium"
+    paths = []cpstring{
+        "/usr/bin/google-chrome-stable",
+        "/usr/bin/google-chrome",
+        "/usr/bin/chromium",
+        "/usr/bin/chromium-browser",
+        "/snap/bin/chromium"
+        }
 
     i=0; for i < len(paths) {
         p = paths[i]
         if fileExists(p) {
             return p
         }
-        i++
+        i = i + 1
     }
 
     cmd = command("zenity --error --title \"Missing chromium\" --text \"Could not find chrome/chromium on this machine.\"")
     cmd.run()
+    return ""
 }
 
 createChrome(port int) {
-    cmdS = intToString(port)
-    cmdS.prepend(" --app=http://localhost:")
-    cmdS.prepend(locateChrome())
-    cmdS.append("/doc/syntax")
+    cmdS = locateChrome() + " --app=http://localhost:" + intToStr(port) + "/doc/syntax"
     cmd = command(cmdS)
     cmd.run()
 }
 
-checkCooldown() {
-    for 1 {
+checkCooldown(id int) {
+    for 1 == 1 {
         sleep(1)
         s = time(0) - *COOLDOWN
         if s > 2 {
@@ -117,15 +116,16 @@ checkCooldown() {
     }
 }
 
-
+#cLib "g"
 
 main(args []cpstring) {
     COOLDOWN = sharedMemory(0)
     *COOLDOWN = time(0)
+    
     tcd = thread{}
-    tcd.handle = &checkCooldown
+    tcd.handle = checkCooldown
     tcd.create()
-
+    
     port = 49152
     for port <= 65535 {
         if isPortAvailable(port) {
@@ -133,12 +133,12 @@ main(args []cpstring) {
         } else if port == 65535 {
             panic("webapp: no available port.")
         }
-        port++
+        port = port + 1
     }
-
+    
     s = http_server{}
     s.port = port
-    s.handle = &server
+    s.handle = server
 
     createChrome(port)
 
