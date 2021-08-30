@@ -73,7 +73,7 @@ stopServer() {
     s.stop()
 }
 
-main(args []cpstring) {
+main(args []cpstring) int {
     flags = flags{}
     flags.addInt("port", "The port on which the server should listen.")
     flags.parse(args)
@@ -88,4 +88,5 @@ main(args []cpstring) {
     s.handle = server
     signal(noCheck(SIGINT), &stopServer)
     s.listenAndServe()
+    return 0
 }
