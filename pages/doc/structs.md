@@ -5,7 +5,7 @@ A structure is a type that has fields (members) and methods (functions).
 ### Declaration
 
 You can declare a structure as such:
-<code>
+```bah
 struct myStructType {
     myNumber: int
     
@@ -13,7 +13,7 @@ struct myStructType {
         this.myNumber = x
     }
 }
-</code>
+```
 
 
 ### Fields
@@ -32,7 +32,7 @@ A method can take and return arguments as a normal function. The only difference
 
 
 ### Example
-<code>
+```bah
 struct myStructType {
     myNumber: int
     
@@ -46,15 +46,14 @@ main() {
     myStruct.myNumber = 3
     myStruct.myMethod(6)
 }
-</code>
-
+```
 
 ### Structure pointers
 
 
 You can initialize a struct pointer using the **new** keyword as such:
-<code>
+```bah
 main() {
     myStruct = new myStructType
 }
-</code>
+```

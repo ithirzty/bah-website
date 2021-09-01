@@ -3,6 +3,7 @@
 #include "string.bah"
 #include "markdown.bah"
 
+#cLib "g"
 
 isFuncDecl(line string) cpstring {
     name = []char
@@ -77,7 +78,7 @@ getComments(lines []string, i int) cpstring {
 
 // this is the main entry point of the program
 //dont forget to put the args []cpstring
-main(args []cpstring) {
+main(args []cpstring) int {
     flags = flags{}
     flags.addString("file", "File to parse")
     flags.parse(args)
@@ -236,5 +237,7 @@ main(args []cpstring) {
     fs.open(fileName.str(), "w")
     fs.writeFile(doc.str())
     fs.close()
+
+    return 0
 
 }

@@ -6,17 +6,17 @@ In bah, variables are strictcly typed at compile time.
 
 When declaring a variable, you can
 - declare it without a value but with a type
-<code>
+```bah
 a int
-</code>
+```
 - declare it without a type but with a value
-<code>
+```bah
 a = 0
-</code>
+```
 - or you can do both
-<code>
+```bah
 a int = 0
-</code>
+```
 
 > Can I change the type of a variable ?
 You can [cast](./casts) a variable or use a function to convert it.
@@ -31,6 +31,6 @@ You can set the value of a pointer by using a unary (&ast;): <code>&ast;a</code>
 
 ### Const
 You can declare a const, *a variable that cannot change and is staticly compiled into the program*.
-<code>
+```bah
 const MyConstant = 1
-</code>
+```

@@ -1,6 +1,10 @@
 # string
 
 
+### cpstringCharAt (func)
+<code>cpstringCharAt(s cpstring, i int) char </code>
+
+
 ### charToString (func)
 <code>charToString(c char) cpstring </code>
 Used for converting a char into a cpstring of length 1.
@@ -70,10 +74,24 @@ Used to convert an array of characters to a cpstring.
 Used to convert a cpstring into an array of characters.
 
 
+### arrAsStr (func)
+<code>arrAsStr(arr []char) cpstring </code>
+Used to get a pointer to an array data as a cpstring.
+Unlike arrToStr, this does not copy the content of the array to a cpstring.
+This is faster but changing the content of the returnend cpstring will change the content of the array.
+You can see this operation as linkning the same data through two different interfaces, the only difference between these two interfaces are their type.
+
+
 ### intToString (func)
 <code>intToString(i int) string </code>
 Used to convert an integer into a string.
 *It returns a string, not a cpstring*
+
+
+### intToStr (func)
+<code>intToStr(i int) cpstring </code>
+Converts an int into a cpstring.
+This is faster than intToString.
 
 
 ### stringToInt (func)
@@ -99,13 +117,17 @@ Used to get the content of a string before a certain delimiter.
 
 ### toLower (func)
 <code>toLower(s string) string </code>
-Used to lowe-case a string.
+Used to lower-case a string.
+
+
+### strHasPrefix (func)
+<code>strHasPrefix(s cpstring, need cpstring) bool </code>
 
 
 ## Example
 ```bah
-&#35;include "iostream.bah"
-&#35;include "string.bah"
+&num;include "iostream.bah"
+&num;include "string.bah"
 
  main() {
      a = string("I code in ")

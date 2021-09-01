@@ -61,6 +61,9 @@ Will realloc memory to a specified pointer.
 ### PROT_WRITE (const)
 
 
+### PROT_READWRITE (const)
+
+
 ### MAP_SHARED (const)
 
 

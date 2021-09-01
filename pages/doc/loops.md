@@ -9,11 +9,9 @@ As long as the expression is true, the code inside of the for loop will be execu
 
 main() {
     i = 0; for i < 10 {
-        s = intToString(i)
-        s.prepend("i: ")
-        println(s)
+        println("i: "+intToStr(i))
 
-        i++ //can only use the ++ keyword if iostream.bah is included
+        i = i + 1
     }
 }
 </code>

@@ -26,7 +26,7 @@ __Its methods are:__
 
 
 ### parseJson (func)
-<code>parseJson(a cpstring) jsonElement&ast; </code>
+<code>parseJson(s cpstring) jsonElement&ast; </code>
 To parse a json document.
 This will return a pointer to the main element.
 

@@ -5,7 +5,7 @@ Strings are handled differently by many languages because they are an odd data t
 ### Built-in strings
 
 The built-in data type for strings in bah is **cpstring** but because a string is much more than a list of characters, the standard library **string.bah** allows you to use the **string** structure. It makes string manipulation much more easy. You can use it as such:
-<code>
+```bah
 #include "iostream.bah"
 #include "string.bah"
 main() {
@@ -22,21 +22,20 @@ main() {
 
     println(a) //printing a
 }
-</code>
+```
 
-
-> How is it that you can pass a string as a cpstring when doing a function call?
-
-When declaring a struct, you can define the str() method that will be used if you try to pass it as a cpstring.
-
+### High-performance operations
+For faster operations, you can use the [rope](./libs/rope) structure that allows you to do really
+fast string concatenation (addition). It can be between 1.5x to >20x faster than concatenating
+cpstrings.
 
 ##### Multi-line strings
 
 A string can be declared over multiple lines a such:
-<code>
+```bah
 myString = "
 I'm
 a
 test
 "
-</code>
+```

@@ -3,7 +3,7 @@
 Here is a hello world in bah:
 ```bah
 #include "iostream.bah"
-main() {
+main(args []cpstring) int {
     println("Hello world")
 }
 ```
@@ -18,7 +18,6 @@ main() {
 - [conditions](./conditions)
 - [loops](./loops)
 - [casts](./casts)
-- [macros](./macros)
 - [comments](./comments)
 - [arrays](./arrays)
 
@@ -28,6 +27,8 @@ main() {
 ### Librairies
 *If you had to do everything from scratch, it would not be easy.*
 That is why the [bah compiler](./compiler) comes with [standard librairies](./std_libs)
+
+##### [Standard libraries](./std_libs)
 
 ### C Librairies
 If you want to import a C library, you can use the **#include** keyword as such: <code>#include "&lt;stdlib.h&gt;"</code>.

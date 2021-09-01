@@ -11,6 +11,7 @@ If two instances of a PRNG have the same seed, they will have the same output.
 <code>randomInRange(min int, max int) int </code>
 This generates a pseudo random integer in the range of min and max.
 *Note: this is not cryptographically safe. This output of this function can be predicted.*
+*Note: `max` should not be equal to `0`.*
 
 
 ### cryptoRand (func)

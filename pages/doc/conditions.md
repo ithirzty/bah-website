@@ -12,9 +12,13 @@ The logic operators available are:
 <code>
 #include "iostream.bah"
 
+ifFor(a) {
+    return a == 4
+}
+
 main() {
     a = 0
-    if a == 4 {
+    if isFor(a) {
         println("a is equal to 4")
     } else if a == 3 {
         println("a is equal to 3")

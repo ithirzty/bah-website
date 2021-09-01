@@ -40,10 +40,10 @@ It is not meant to be ran on your main markdown document but rather on some part
 
 ## Example
 ```bah
- &#35;include "iostream.bah"
- &#35;include "markdown.bah"
+ &num;include "iostream.bah"
+ &num;include "markdown.bah"
  main() {
- article = "&#35; How to write Bah code?
+ article = "&num; How to write Bah code?
 
  &gt; It's not that hard
 
