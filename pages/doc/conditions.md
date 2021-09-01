@@ -9,7 +9,7 @@ The logic operators available are:
 - **<=** is less than or equal to
 - **>=** is greater than or equal to
 
-<code>
+```bah
 #include "iostream.bah"
 
 ifFor(a) {
@@ -26,4 +26,4 @@ main() {
         println("a is neither equal to 4 or 3")
     }
 }
-</code>
+```

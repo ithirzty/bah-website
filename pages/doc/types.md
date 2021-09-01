@@ -18,6 +18,6 @@ Bah has multiple built-in types. They are:
 
 There are also [structures](./structs).
 You can define your own type using the keyword *#define* as such:
-<code>
+```bah
 #define myIntegerType int
-</code>
+```

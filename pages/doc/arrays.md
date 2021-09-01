@@ -14,7 +14,7 @@ An array is declared as such: <code>arr = []cpstring</code>.
 
 
 #### Example
-<code>
+```bah
 #include "iostream.bah"
 main() {
     arr = []cpstring{
@@ -30,4 +30,4 @@ main() {
     }
 
 }
-</code>
+```

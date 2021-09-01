@@ -5,12 +5,12 @@ A function is a bit of code that can takes arguments (variables) and return a re
 ### Declaration
 
 You can declare a function in the outter scope (not inside a function) as such:
-<code>
+```bah
 myFunc(x int, y int) int {
     z = x + y
     return z
 }
-</code>
+```
 
 
 ### Calling
