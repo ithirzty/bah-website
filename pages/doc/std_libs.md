@@ -1,5 +1,5 @@
 ## Standard librairies
-You can include a library using the **#include** keyword followed by the file name inside brackets.
+You can include a library using the **#include** keyword followed by the file name inside quotes.
 The current standard librairies are:
 - [queue](libs/queue) implementing queues (linked lists)
 - [http](libs/http) for making http requests/making a web server
