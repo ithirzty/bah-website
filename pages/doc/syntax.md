@@ -5,6 +5,7 @@ Here is a hello world in bah:
 #include "iostream.bah"
 main(args []cpstring) int {
     println("Hello world")
+    return 0
 }
 ```
 > The standard in Bah is **camel case** where there should be a space.
