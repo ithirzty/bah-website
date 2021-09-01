@@ -87,7 +87,7 @@ Checks if a port is available.
  &num;include "http.bah"
 
 
- server(serv http_server&ast;, connfd int) int {
+ server(serv http_server&ast;, connfd int) {
 
      request = http_request(connfd)
      response = http_response(connfd)
@@ -100,14 +100,13 @@ Checks if a port is available.
      response.write("\nIt works!")
      response.send()
 
-     return 0
  }
 
  main() {
   
      s = http_server{}
      s.port = 8080
-     s.handle = &server
+     s.handle = server
      s.listenAndServe()
 
  }
