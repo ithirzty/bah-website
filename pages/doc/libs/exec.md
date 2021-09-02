@@ -4,6 +4,8 @@
 ### command (struct)
 A wrapper for executting command.
 This is will return the output of the command.
+If you dont want stderr, set `.error = false`.
+The exit status code of the executed command is stored in `.status`.
 __Its methods are:__
 - <code>**run**() cpstring </code> To run the command.
 This returns a cpstring containning the output of the command.
