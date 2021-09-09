@@ -17,3 +17,4 @@ The current standard librairies are:
 - [flags](libs/flags) a command line arguments (flags) parser. Set up your own flags and get their value easily
 - [json](libs/json) a basic json parer
 - [rope](libs/rope) a rope implementation (heavy-duty strings for faster concatenation)
+- [matrix](libs/matrix) a wrapper for handling arrays as matrices
