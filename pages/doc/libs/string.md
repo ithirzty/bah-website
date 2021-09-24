@@ -82,6 +82,14 @@ This is faster but changing the content of the returnend cpstring will change th
 You can see this operation as linkning the same data through two different interfaces, the only difference between these two interfaces are their type.
 
 
+### strAsArr (func)
+<code>strAsArr(str cpstring) []char </code>
+Used to get a cpstring as an array of chars.
+This is faster than strToArr() but changing the content of the array will change the content of the cpstring.
+This could lead to memory corruption if the cpstring is not heap allocated.
+Make sure that the array is null terminated if editting it.
+
+
 ### intToString (func)
 <code>intToString(i int) string </code>
 Used to convert an integer into a string.
@@ -92,6 +100,10 @@ Used to convert an integer into a string.
 <code>intToStr(i int) cpstring </code>
 Converts an int into a cpstring.
 This is faster than intToString.
+
+
+### strToInt (func)
+<code>strToInt(s cpstring) int </code>
 
 
 ### stringToInt (func)

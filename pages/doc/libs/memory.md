@@ -77,6 +77,12 @@ The size should be an multiple of 4096. A size of 0 will set the page size to th
 Shared memory can be shared between two processes (after the use of fork()).
 
 
+### allocateArray (func)
+<code>allocateArray(arr ptr, nbElems int) </code>
+Used for pre-allocating a number of element to an array.
+The content of the array is not initialized, it may contain garbage.
+
+
 ## Example
 ```bah
  &num;include "string.bah"

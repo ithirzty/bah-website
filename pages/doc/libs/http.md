@@ -5,22 +5,32 @@
 
 
 ### parseUrl (func)
-<code>parseUrl(cps cpstring) http_url {   </code>
+<code>parseUrl(cps cpstring) http_url&ast; {   </code>
 Used for parsing an URL.
+
+
+### closeSocket (func)
+<code>closeSocket(sockfd int) </code>
+Used for closing a socket.
+
+
+### HTTP_SERVER_NO_ERROR (const)
+
+
+### HTTP_SERVER_SOCKET_ERROR (const)
+
+
+### HTTP_SERVER_BIND_ERROR (const)
+
+
+### HTTP_SERVER_LISTEN_ERROR (const)
 
 
 ### http_server (struct)
 A wrapper for a http web server.
 __Its methods are:__
-- <code>**listenAndServe**() </code> To start the server.
 - <code>**stop**() </code> To stop the server.
-
-
-### http_request (struct)
-A wrapper for requests.
-When receiving a connection, you will be able to retreive the passed headers, path... from the client.
-__Its methods are:__
-- <code>**getHeader**(name cpstring) cpstring </code> Get a header by name.
+- <code>**listenAndServe**() </code> To start the server.
 
 
 ### HTTP_OK (const)
@@ -43,15 +53,31 @@ HTTP code 500 means that the server encountered an internal error
 HTTP code 301 means a permanent redirection
 
 
+### HTTP_PARTIAL_CONTENT (const)
+HTTP code 206 means content can be seeked up in a range
+
+
+### http_transport (struct)
+__Its methods are:__
+- <code>**setHeader**(name cpstring, value cpstring) </code> To set a header by name.
+- <code>**getHeader**(name cpstring) cpstring </code> To get the value of a header by name.
+- <code>**write**(content cpstring) </code> To append to the body of the response.
+
+
+### openSocket (func)
+<code>openSocket(host cpstring, port int) int </code>
+
+
 ### http_response (struct)
 A wrapper for HTTP responses. You will be able to set/retreive the headers sent/receive.
 You will encounter this when doing a request or sending a response to the client.
 __Its methods are:__
 - <code>**send**() </code> Send the response.
 *Use it only when sending response to the client from a http_server*.
-- <code>**setHeader**(name cpstring, value cpstring) </code> To set a header by name.
-- <code>**getHeader**(name cpstring) cpstring </code> To get the value of a header by name.
-- <code>**write**(content cpstring) </code> To append to the body of the response.
+
+
+### makeRespFromBody (func)
+<code>makeRespFromBody(response string) http_response&ast; </code>
 
 
 ### makeRawHttpsRequest (func)
@@ -60,8 +86,18 @@ Used for making TLS requests.
 *This is an internal function, you should know what you're doing if you decide to use it.*
 
 
+### http_request (struct)
+A wrapper for requests.
+When receiving a connection, you will be able to retreive the passed headers, path... from the client.
+__Its methods are:__
+- <code>**send**() http_response&ast; </code>
+- <code>**parseForm**() bool </code> Call this to parse the post data form.
+This will return false if anything goes wrong while parsing the form.
+- <code>**getFormValue**(name cpstring) cpstring </code>
+
+
 ### makeRawRequest (func)
-<code>makeRawRequest(method cpstring, u http_url, args []cpstring) http_response </code>
+<code>makeRawRequest(method cpstring, u http_url&ast;, args []cpstring) http_response </code>
 Used for making any request.
 Method is either http or https. The arguments (args) are the variables to pass (can be post or get variable) formatted as: name=value.
 
