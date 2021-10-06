@@ -113,7 +113,7 @@
         This last statistic has been taken from compilation speeds of the old compiler (written in Go) and the new compiler (written in Bah).<br>
         That gap can be explained mostly because Go doesn't encourage the user to use pointers meanning that most variable will need to be entierly copied
         in each scope, but also because Go runtime can be quite consumming.<br>
-        On the same machine, the new compiler (~4600 lines) was compiled with:<br>
+        On the same machine, the new compiler (~4900 lines) was compiled with:<br>
         <ul>
             <li><b>the Go written compiler:</b> in 1.5-1.7s</li>
             <li><b>the Bah written compiler:</b> in 720-850ms.</li>
@@ -121,11 +121,15 @@
         Optimizations to the language and the compiler are still being made to make it faster.
     </p>
 
+    <footer style="text-align:center;">
+    <p>&copy; Aloïs Laurent Boë - 2021</p>
+    </footer>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         if (location.protocol !== 'https:') {
-            location.replace(`https:${location.href.substring(location.protocol.length)}`);
+            //location.replace(`https:${location.href.substring(location.protocol.length)}`);
         }
 
         
