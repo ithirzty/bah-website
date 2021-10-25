@@ -15,6 +15,7 @@ The current standard librairies are:
 - [regex](libs/regex) a simple regex parser
 - [exec](libs/exec) a simple wrapper for executing commands/executables
 - [flags](libs/flags) a command line arguments (flags) parser. Set up your own flags and get their value easily
-- [json](libs/json) a basic json parer
+- [json](libs/json) a basic json parser + stringifyier
 - [rope](libs/rope) a rope implementation (heavy-duty strings for faster concatenation)
 - [matrix](libs/matrix) a wrapper for handling arrays as matrices
+- [reflect](libs/reflect) making reflection (changing behavior bt type) possible in Bah

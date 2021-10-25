@@ -102,8 +102,19 @@ Converts an int into a cpstring.
 This is faster than intToString.
 
 
+### floatToStr (func)
+<code>floatToStr(f float) cpstring </code>
+Converts a float to a cpstring.
+
+
 ### strToInt (func)
 <code>strToInt(s cpstring) int </code>
+Used for converting a string to an int.
+
+
+### strToFloat (func)
+<code>strToFloat(s cpstring) float </code>
+Used for converting a string to a float
 
 
 ### stringToInt (func)

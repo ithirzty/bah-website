@@ -35,9 +35,9 @@ The differents modes can be found [here](https://koor.fr/C/cstdio/fopen.wp).
 - <code>**getPos**() int </code> Returns the position of the file reader.
 - <code>**setPos**(i int) </code> Set the position of the file reader.
 - <code>**getSize**() int </code> Returns the size of a file in bytes.
-- <code>**readContent**() cpstring </code> Returns the content of the opened file.
 - <code>**rewind**() </code> Sets the reading cursor to the beginning of the file.
 - <code>**getChar**() char </code> Returns a char at the current reading cursor in the file and moves the reading cursor to the next char.
+- <code>**setChar**(c char) </code> Adds a character to the file.
 - <code>**createFile**(path cpstring) </code> Creates a file by name.
 - <code>**writeFile**(content cpstring) int </code> Writes the opened file with the specified content.
 - <code>**writePtr**(a ptr, s int) </code> Serialize a pointer and write it to a file.
@@ -46,6 +46,9 @@ s: sizeof() the pointer's content
 - <code>**readPtr**(a ptr, s int) int </code> Read a file and unserialize its content to a pointer.
 a: the pointer to unserialize
 s: sizeof() the pointer's content.
+- <code>**readContent**() cpstring </code> Returns the content of the opened file.
+- <code>**readBytes**() []char </code> Returns the file's content as an array of bytes (char).
+- <code>**writeBytes**(d []char) </code> Write an array of bytes (char) to a file.
 
 
 ### fileMap (struct)

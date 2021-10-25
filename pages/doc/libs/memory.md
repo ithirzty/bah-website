@@ -83,6 +83,16 @@ Used for pre-allocating a number of element to an array.
 The content of the array is not initialized, it may contain garbage.
 
 
+### serlen (func)
+<code>serlen(data []char) int </code>
+Function used to get the size of the serialized pointer.
+
+
+### unser (func)
+<code>unser(data []char) ptr </code>
+Function used to unserialize the content of a struct.
+
+
 ## Example
 ```bah
  &num;include "string.bah"

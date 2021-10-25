@@ -9,6 +9,11 @@
 Used for parsing an URL.
 
 
+### urlDecode (func)
+<code>urlDecode(encoded cpstring) cpstring </code>
+Used for decoding an url encoded string.
+
+
 ### closeSocket (func)
 <code>closeSocket(sockfd int) </code>
 Used for closing a socket.
@@ -93,7 +98,8 @@ __Its methods are:__
 - <code>**send**() http_response&ast; </code>
 - <code>**parseForm**() bool </code> Call this to parse the post data form.
 This will return false if anything goes wrong while parsing the form.
-- <code>**getFormValue**(name cpstring) cpstring </code>
+- <code>**getFormValue**(name cpstring) cpstring </code> Used for getting the value of a form's input.
+- <code>**getCookie**(name cpstring) cpstring </code> Used for getting the value of a cookie.
 
 
 ### makeRawRequest (func)

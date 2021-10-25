@@ -23,12 +23,17 @@ If the element is of type array (or map), all of its children will be contained 
 __Its methods are:__
 - <code>**map**(key cpstring) jsonElement&ast; </code> If the current element is of type map, this method is used to get a children element mapped to this key.
 - <code>**str**() cpstring </code> To get the current element as a cpstring no matter its type.
+- <code>**scan**(e reflectElement) </code> Used for scanning the JSON element to a var.
 
 
 ### parseJson (func)
 <code>parseJson(s cpstring) jsonElement&ast; </code>
 To parse a json document.
 This will return a pointer to the main element.
+
+
+### toJson (func)
+<code>toJson(e reflectElement) cpstring </code>
 
 
 ## Example
