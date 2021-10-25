@@ -23,7 +23,7 @@ If the element is of type array (or map), all of its children will be contained 
 __Its methods are:__
 - <code>**map**(key cpstring) jsonElement&ast; </code> If the current element is of type map, this method is used to get a children element mapped to this key.
 - <code>**str**() cpstring </code> To get the current element as a cpstring no matter its type.
-- <code>**scan**(e reflectElement) </code> Used for scanning the JSON element to a var.
+- <code>**scan**(e reflectElement) </code> Used for scanning the JSON element in a var.
 
 
 ### parseJson (func)
@@ -34,19 +34,58 @@ This will return a pointer to the main element.
 
 ### toJson (func)
 <code>toJson(e reflectElement) cpstring </code>
+Converting a var into json.
 
 
 ## Example
 ```bah
  &num;include "iostream.bah"
  &num;include "json.bah"
- main() {
- unparsed = "[54, {\"key\":[0,1]}, \"element\"]"
- json = parseJson(unparsed)
- fiftyfor = json.children[0]
- println(fiftyfor.content)
- jsonMap = json.children[1]
- jsonArray = jsonMap.map("key")
- println(jsonArray.content)
+ struct user {
+     name: cpstring
+     id: int
+     avatar: cpstring
+     password: cpstring
+ }
+ struct post {
+     title: cpstring
+     content: cpstring
+     author: user
+     score: float
+     identified: []int
+ }
+ main(args []cpstring) int {
+     //Our JSON test string
+     doc = "
+     {
+         \"title\": \"Test\",
+         \"content\": \"This is a test post\",
+         \"author\": {
+             \"name\": \"Alois\",
+             \"id\": 543,
+             \"avatar\": \"cdn.example.com/avatar.jpeg\",
+         },
+         \"identified\": [324, 456, 875],
+         \"score\": 43.65
+     }"
+     //parsing out test string
+     root = parseJson(doc)
+     //sacanning it to the post1 structure
+     post1 = new post
+     root.scan(post1)
+     //converting our post1 structure into json
+     postStr = toJson(post1)
+     //parsing the json of out test1 structure
+     post2Json = parseJson(postStr)
+     //scanning it to our post2 structure
+     post2 = new post
+     post2Json.scan(post2)
+     //converting our post2 structure into json and printting it
+     println(toJson(post2))
+     //fetching post title
+     titleElem = root.map("title")
+     //printing the title
+     println("The post is titled: "+titleElem.content)
+     return 0
  }
 ```
