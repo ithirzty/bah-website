@@ -38,8 +38,13 @@ server(serv http_server*, connfd int) {
         return
     }
 
-       fs = fileMap{}
+    fs = fileMap{}
     page cpstring
+    if isInside(BASE_PATH, path.str()) == false {
+        resp.write("stop that")
+        resp.send()
+        return
+    }
     if path.hasPrefix("./pages/doc/") {
         header = fs.open("./pages/doc/header.html")
         fs.close()
