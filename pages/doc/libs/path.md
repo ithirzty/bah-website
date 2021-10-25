@@ -13,6 +13,13 @@ To get the working path.
 The working path is the path to the directory that is defined as **./**.
 
 
+### isInside (func)
+<code>isInside(basePath cpstring, subPath cpstring) bool </code>
+Returns true if the subPath is inside the basePath.
+Usefull for securing connection (such as HTTP server) to make sure you do not give
+access to your complete file system.
+
+
 ## Example
 ```bah
  &num;include "iostream.bah"
