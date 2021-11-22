@@ -18,6 +18,60 @@ parsePath(p cpstring) string {
     return path
 }
 
+serveFile(p cpstring, req http_request, r http_response) bool {
+    fs = fileStream{}
+    fs.open(p, "r")
+    if fs.isValid() == 0 {
+        return false
+    }
+    size = fs.getSize()
+    
+    startStr = string(req.getHeader("range"))
+    start = 0
+    r.write("")
+
+    sp = string(p)
+
+    if sp.hasSuffix(".mp4") {
+        r.setHeader("content-type", "video/mp4")
+        r.setHeader("Access-Control-Allow-Origin", "*")
+    }
+
+    if startStr.length != 0 {
+        startStr.trimLeft(6)
+        startStr.trimRight(1)
+        start = strToInt(startStr.str())
+        r.setHeader("accept-range", "bytes")
+        r.setHeader("content-range", "bytes "+intToStr(start)+"-"+intToStr(size-1)+"/"+intToStr(size))
+        r.code = HTTP_PARTIAL_CONTENT
+        fs.setPos(start)
+        size = size - start
+    }
+
+    r.setHeader("content-length", intToStr(size))
+    r.send()
+
+
+    incr = 48000
+    offset=0; for offset < size {
+        bytes = []char
+        realIncr = incr
+        if offset + realIncr > size {
+            realIncr = size - offset
+        }
+        allocateArray(bytes, realIncr)
+        i=0; for i < realIncr {
+            bytes[i] = fs.getChar()
+            i = i + 1
+        }
+        r.flush(bytes)
+        offset = offset + realIncr
+    }
+
+    fs.close()
+    return true
+}
+
 server(serv http_server*, connfd int) {
 
     req = http_request(connfd)
@@ -57,9 +111,7 @@ You can go to the [syntax](/doc/syntax) page to access the documentation.
         resp.write(footerS.str())
         
     } else {
-        page = fs.open(path.str())
-        fs.close()
-        resp.write(page)
+        serveFile(path.str(), req, resp)
     }
 
 
