@@ -20,7 +20,7 @@ parsePath(p cpstring) string {
 
 serveFile(p cpstring, req http_request, r http_response) bool {
     fs = fileStream{}
-    fs.open(p, "r")
+    fs.open(p, "rb")
     if fs.isValid() == 0 {
         return false
     }
