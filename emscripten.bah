@@ -36,12 +36,13 @@ deleteFiles(path cpstring, cleanup bool) {
         folders = listFiles("./tmp")
         currTime = getTimeUnix() / 1000000000
         i=0; for i < len(folders), i++ {
-            if fileExists(folders[i]) == false {
-                continue
-            }
-            lm = getLastModified(folders[i]+"/main.bah")
+            // if fileExists(folders[i]+"/main.bah") == false {
+            //     println("nope: "+folders[i]+"/main.bah")
+            //     continue
+            // }
+            lm = getLastModified("./tmp/"+folders[i]+"/main.bah")
             if currTime - lm > 60 {
-                deleteFiles(folders[i], false)
+                deleteFiles("./tmp/"+folders[i], false)
             }
         }
     }

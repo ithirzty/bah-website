@@ -2,6 +2,7 @@
 #import "json.bah"
 #import "emscripten.bah"
 #import "/ithirzty/javel/javel.bah"
+#import "flags.bah"
 
 
 handleCompile(r javel_route*, req http_request, resp http_response) {
@@ -44,15 +45,23 @@ handleTMPfile(r javel_route*, req http_request, resp http_response) {
 }
 
 main(args []cpstring) int {
-
+    flags = flags{}
+    flags.addInt("port", "port of the http server")
+    flags.parse(args)
     //test
     // fs = fileStream{}
     // fs.open("test.bah", "r")
     // buildFile(fs.readContent())
     // fs.close()
 
+    p = 448
+
+    if flags.isSet("port") {
+        p = flags.getInt("port")
+    }
+
     j = javel{
-        port: 448
+        port: p
     }
     j.routes = []javel_route{
         javel_route{
