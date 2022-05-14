@@ -1,0 +1,77 @@
+#import "iostream.bah"
+#import "json.bah"
+#import "emscripten.bah"
+#import "/ithirzty/javel/javel.bah"
+
+
+handleCompile(r javel_route*, req http_request, resp http_response) {
+    if req.method != "POST" {
+        return
+    }
+
+    compResp = buildFile(req.body.str())
+
+    resp.write(toJson(compResp))
+    resp.send()
+
+    // deleteFiles(compResp.folder)
+
+}
+
+handleTMPfile(r javel_route*, req http_request, resp http_response) {
+
+    resp.setHeader("Cache-Control", "max-age=60")
+
+    path = string(req.path)
+    if path.hasSuffix(".wasm") {
+        resp.setHeader("content-type", "application/wasm")
+    }
+    javel_serveFile(r, req, resp)
+
+    if removeFile(r.base+req.path) == false {
+        println("error removing file: "+r.base+req.path)
+        path.trimRight(8)
+        println("removing: "+r.base+path.str())
+        deleteFiles(r.base+path.str(), true)
+    }
+
+    if path.hasSuffix(".wasm") {
+        path.trimRight(10)
+        deleteFiles(r.base+path.str(), true)
+    }
+    
+
+}
+
+main(args []cpstring) int {
+
+    //test
+    // fs = fileStream{}
+    // fs.open("test.bah", "r")
+    // buildFile(fs.readContent())
+    // fs.close()
+
+    j = javel{
+        port: 8080
+    }
+    j.routes = []javel_route{
+        javel_route{
+            base: "pages"
+            path: "/"
+            handle: javel_serveFile
+        },
+        javel_route{
+            base: "pages"
+            path: "/compile"
+            handle: handleCompile
+        },
+        javel_route{
+            base: "pages"
+            path: "/tmp/"
+            handle: handleTMPfile
+        }
+
+    }
+    j.launch()
+    return 0
+}

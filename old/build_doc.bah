@@ -1,0 +1,243 @@
+#include "iostream.bah"
+#include "flags.bah"
+#include "string.bah"
+#include "markdown.bah"
+
+#cLib "g"
+
+isFuncDecl(line string) cpstring {
+    name = []char
+    foundPar = 0
+    i=0; for i < line.length {
+        c = line.charAt(i)
+        if isSpace(c) {
+            if len(name) == 0 {
+                i = i + 1
+                continue
+            }
+        }
+        if isAlphaNumeric(c) == 0 {
+            if c == '(' {
+                foundPar = 1
+                break
+            } else {
+                return ""
+            }
+        } else {
+            name[len(name)] = c
+        }
+        i = i + 1
+    }
+
+    if foundPar == 0 {
+        return ""
+    }
+
+    i=line.length-1; for i >= 0 {
+        c = line.charAt(i)
+        if isSpace(c) {
+            i = i - 1
+            continue
+        }
+        if c != '{' {
+            return ""
+        } else {
+            break
+        }
+        i = i - 1
+    }
+
+    return arrAsStr(name)
+
+}
+
+struct elem {
+    type: cpstring
+    name: cpstring
+    doc: cpstring
+}
+
+getComments(lines []string, i int) cpstring {
+    doc = string("")
+    ii=i-1; for ii >= 0 {
+        l = lines[ii]
+        l.trim()
+        if l.hasPrefix("//") {
+            dl = string(l.str())
+            dl.trimLeft(2)
+            dl.append("\n")
+            dl.trim()
+            doc.prepend(dl.str())
+        } else {
+            break
+        }
+        ii = ii - 1
+    }
+    return doc.str()
+}
+
+// this is the main entry point of the program
+//dont forget to put the args []cpstring
+main(args []cpstring) int {
+    flags = flags{}
+    flags.addString("file", "File to parse")
+    flags.parse(args)
+
+    if flags.isSet("file") == 0 {
+        flags.invalidate()
+    }
+
+    fm = fileMap{}
+    fn = flags.get("file")
+    content = fm.open(fn)
+    if fm.isValid() == 0 {
+        panic("File does not exist.")
+    }
+
+    fileName = string(fn)
+
+    if fileName.hasSuffix(".bah") == 0 {
+        panic("Cannot open a file that is not bah lang.")
+    }
+
+    example = string("")
+
+    fileName.trimRight(4)
+    pathElems = splitString(fileName, "/")
+    fileName = pathElems[len(pathElems)-1]
+    
+    fm.close()
+
+    lines = splitString(string(content), "\n")
+    
+    elems = []elem
+
+
+    i=0; for i < len(lines) {
+        
+        line = lines[i]
+        line.trim()
+
+        if line.length == 0 {
+            i = i + 1
+            continue
+        }
+        name = isFuncDecl(line)
+        if strlen(name) > 0 {
+            //found a function
+            elem = elem{}
+            elem.type = "func"
+            elem.name = name
+            doc = string(getComments(lines, i))
+            line.trimRight(1)
+            escapeMarkdownHTML(&line)
+            line.prepend("<code>")
+            line.append("</code>\n")
+            doc.prepend(line.str())
+            elem.doc = doc.str()
+            elems[len(elems)] = elem
+        } else {
+            words = splitString(line, " ")
+            fw = words[0]
+            if fw.compare("struct") {
+                nbBraces = 0
+                doc = string(getComments(lines, i))
+                doc.append("__Its methods are:__\n")
+                foundMethods = 0
+                for i < len(lines) {
+                    l = lines[i]
+                    l.trim()
+                    nbBraces = nbBraces + l.count("{")
+                    nbBraces = nbBraces - l.count("}")
+                    
+                    methodName = isFuncDecl(l)
+                    if strlen(methodName) > 0 {
+                        foundMethods = 1
+                        doc.append("- <code>**")
+                        doc.append(methodName)
+                        doc.append("**")
+
+                        l.trimLeft(strlen(methodName))
+                        l.trimRight(1)
+                        escapeMarkdownHTML(&l)
+                        doc.append(l.str())
+                        doc.append("</code> ")
+                        doc.append(getComments(lines, i))
+                        doc.trimRight(1)
+                        doc.append("\n")
+                    }
+
+                    if nbBraces == 0 {
+                        break
+                    }
+                    i = i + 1
+                }
+
+                if foundMethods == 0 {
+                    doc.trimRight(21)
+                }
+
+                n = words[1]
+                
+                elem = elem{}
+                elem.type = "struct"
+                elem.name = n.str()
+                elem.doc = doc.str()
+                elems[len(elems)] = elem
+            } else if fw.compare("const") {
+                n = words[1]
+                elem = elem{}
+                elem.type = "const"
+                elem.name = n.str()
+                elem.doc = getComments(lines, i)
+                elems[len(elems)] = elem
+
+            } else if line.compare("//Example") {
+                i = i + 1; for i < len(lines) {
+                    l = lines[i]
+                    l.trim()
+                    if l.hasPrefix("//") == 0 {
+                        break
+                    }
+                    l.trimLeft(2)
+                    escapeMarkdownHTML(&l)
+                    example.append(l.str())
+                    example.append("\n")
+                    i = i + 1
+                }
+            }
+        }
+
+        i = i + 1
+    }
+
+    doc = string("# ")
+    doc.append(fileName.str())
+    doc.append("\n\n\n")
+
+    i=0; for i < len(elems) {
+        e = elems[i]
+        doc.append("### ")
+        doc.append(e.name)
+        doc.append(" (")
+        doc.append(e.type)
+        doc.append(")\n")
+        doc.append(e.doc)
+        doc.append("\n\n")
+        i = i + 1
+    }
+    doc.append("## Example\n```bah\n")
+    doc.append(example.str())
+    doc.append("```")
+    
+    fileName.prepend("./pages/doc/libs/")
+    fileName.append(".md")
+    
+    fs = fileStream{}
+    fs.open(fileName.str(), "w")
+    fs.writeFile(doc.str())
+    fs.close()
+
+    return 0
+
+}

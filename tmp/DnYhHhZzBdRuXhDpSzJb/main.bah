@@ -1,0 +1,12 @@
+backtrace(arr ptr, l int) int {
+        return 0
+    }
+#include "iostream.bah"
+
+main(args []cpstring) int {
+
+    println("Hello world!")
+
+    return 0
+}
+

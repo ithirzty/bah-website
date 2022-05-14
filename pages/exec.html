@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index de test</title>
+</head>
+<body>
+    <div id="outputWrapper">
+        <iframe src="" id="output" frameborder="0"></iframe>
+    </div>
+
+
+    <textarea name="" id="input" cols="30" rows="10"></textarea>
+
+    <button id="compileButton">compile and run</button>
+
+    <script>
+        console.log = (t) => {
+            document.getElementById("output").innerText = t
+        }
+        document.getElementById("compileButton").onclick = ()=> {
+            fetch("/compile", {
+                method: 'POST',
+                body: document.getElementById("input").value
+            }).then(r=>{
+                r.json().then(j=>{
+                    document.getElementById("output").remove()
+                    document.getElementById("outputWrapper").innerHTML = `
+                    <iframe src="" id="output" frameborder="0"></iframe>
+                    `
+                    
+                    console.log(j)
+                    document.getElementById("output").contentWindow.document.write(`
+                    <html lang="fr">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>test</title>
+                    </head>
+                    <body>
+
+                        <div id="output"></div>
+
+                        <script>
+                            console.log = (t)=>{
+                                document.getElementById("output").innerText = t
+                            }
+                        </`+`script>
+                        <script src="${j.js}"></`+`script>
+                    </body>
+                    </html>
+                    `)
+                    // el = document.createElement("script"); el.id="execScript"; el.src = j.js; document.body.appendChild(el)
+                })
+            })
+        }
+    </script>
+
+</body>
+</html>

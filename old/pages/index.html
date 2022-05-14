@@ -1,0 +1,204 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XDB1TGQMGM"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XDB1TGQMGM');
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+
+    <title>Bah Lang</title>
+</head>
+<body>
+    <style>
+        .row {
+            border-radius: 4px;
+            padding:10px;
+        }
+        .row.refs {
+            background-color: rgba(0,0,0,0.04);
+        }
+        .box h3 {
+            text-align: center;
+        }
+        #mainArgs {
+            outline: none !important;
+        }
+        #nbStars {
+            font-size: 12px;
+            position: relative;
+            float:right;
+            top: 6px;
+        }
+    </style>
+    <h1>Bah lang</h1>
+
+    <p><b>Bah is a really fast multi-purpose language.</b> It can build web servers (this website's backend was written in bah), easy and fast string/rope manipulation, etc...<br>
+        It achieves all of that without the hassle of managing your memory!<br>Bah can be as low level as you want, with support for C libraries (with their bindings).
+        Its compiler is fast, minimalist.<br>
+        It is <b>available for all linux, windows and macos</b> and all the standard libraries are cross-platforms.
+    </p>
+
+    <p>
+        Its code is as clean as it is simple to understand while being low-level enough to remind you that you are working with a machine. <br>
+        Making it as easy as possible to make librairies for other developpers. <b>Its goal is to be low-level while still being pleasant to write</b>.
+    </p>
+
+    <div class="row refs">
+        <div class="col-sm-0 col-md-2"></div>
+        <div class="col-sm-12 col-md-4 box">
+            <h3>Install</h3>
+            <p style="text-align: justify;">In order to install bah-lang, follow the tutorial on <a target="_blank" href="https://github.com/ithirzty/bah">github</a>.
+            You will need <b>git</b> to update bah in the future. The bah compiler comes bundle with standard libraries and install/update tools.
+            It only supports linux for the moment.<br>
+            <div class="row">
+                <div class="col-sm-0 col-md-2"></div>
+                <a href="https://github.com/ithirzty/bah" class="col-sm-12 col-md-8 btn btn-dark btn-lg" id="githubBtn">Github <span style="color:#a3a3a3">ithirzty/bah</span> <span id="nbStars">...</span></a>
+            </div>
+            </p>
+        </div>
+        <div class="col-sm-12 col-md-4 box">
+            <h3>Documentation</h3>
+            <p style="text-align: justify;">
+            You can see the source of this website + documentation on <a target="_blank" href="https://github.com/ithirzty/bah-website">github</a> 
+            where you can find an offline version of the documentation and the tools necessary to generate/edit your own documentation.<br>
+            <div class="row">
+                <div class="col-sm-0 col-md-2"></div>
+                <a href="/doc/syntax" class="col-sm-12 col-md-8 btn btn-primary btn-lg">Browse documentation</a>
+            </div>
+            </p>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <pre>
+#include <span class="string">"iostream.bah"</span>
+
+<span class="func">main</span>(<span class="var">args</span> <span class="block">[]</span><span class="type">cpstring</span>) <span class="type">int</span> {
+    <span class="func">print</span>(<span class="string">"Hello "</span>)
+    <span class="var">i</span> = <span class="num">1</span>; <span class="keyword">for</span> <span class="var">i</span> &lt; <span class="func">len</span>(<span class="var">args</span>) {
+        <span class="func">println</span>(<span class="var">args</span><span class="block">[<span class="var">i</span>]</span>)
+        <span class="var">i</span> = <span class="var">i</span> + <span class="num">1</span>
+    }
+    <span class="keyword">return</span> <span class="num">0</span>
+}
+            </pre>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <pre id="console">
+  <span class="type">$</span> <span class="var">bah</span> ./main.bah
+<span class="num">Done (979 lines compiled in 200ms).</span>
+  <span class="type">$</span> <span class="var">./main</span> <span id="mainArgs" contenteditable="true">"world"</span></pre>
+        </div>
+
+    </div>
+
+    <p>
+        <h3>Why?</h3>
+        Most low level languages come with complexe code that can quickly become hard to read. Higher level languages may lead the user to write the
+        most simple code possible without making any optimization.<br>
+        Bah ties to find a middle ground where it can be as fast as C (faster in some instances) while still being readable thanks to its minimalist
+        syntax.<br>
+        Every element that is not needed (such as ';' at the end of lines) are not needed, making for cleanner code.
+    </p>
+
+    <p>
+        <h3>Modernity</h3>
+        Bah has some inovating concepts such as <a href="/doc/libs/reflect">reflection</a> and <a href="/doc/libs/rope">ropes</a>.<br>
+        These have been made accessible to everyone in the most simple manner.
+    </p>
+
+    <p>
+        <h3>Speed</h3>
+        Go is a language that has a syntax similar to Bah, that took inspiration from it. In some tests, Bah can be as much as <b>2 times faster than Go</b>.<br>
+        This last statistic has been taken from compilation speeds of the old compiler (written in Go) and the new compiler (written in Bah).<br>
+        That gap can be explained mostly because Go doesn't encourage the user to use pointers meanning that most variable will need to be entierly copied
+        in each scope, but also because Go runtime can be quite consumming.<br>
+        On the same machine, the new compiler (~4900 lines) was compiled with:<br>
+        <ul>
+            <li><b>the Go written compiler:</b> in 1.5-1.7s</li>
+            <li><b>the Bah written compiler:</b> in 720-850ms.</li>
+        </ul>
+        Optimizations to the language and the compiler are still being made to make it faster.
+    </p>
+
+    <p>
+        <h3>Use cases</h3>
+        Bah has a growing number of libraries, including an http library, a graphic library (vbah), a json library and many more.
+        <br>
+        <span>
+            <img src="particles.png" style="    margin-left: 50%;
+            transform: translateX(-50%);" alt="particle system in vbah">
+        </span>
+        <br>
+    </p>
+
+    <footer style="text-align:center;">
+    <p>&copy; Aloïs Laurent Boë - 2021</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        // if (location.protocol !== 'https:') {
+        //     location.replace(`https:${location.href.substring(location.protocol.length)}`);
+        // }
+
+        
+        $(document).ready(function(){
+            fetch("https://api.github.com/repos/ithirzty/bah").then(resp => {
+                resp.json().then(respJson => {
+                    $("#nbStars").text("🌟"+respJson.stargazers_count)
+                })
+            })
+            
+            $("#githubBtn").append("")
+            $("#console").click(function(){
+                $("#mainArgs").focus()
+            })
+            function placeCaretAtEnd(el) {
+                el.focus();
+                if (typeof window.getSelection != "undefined"
+                        && typeof document.createRange != "undefined") {
+                    var range = document.createRange();
+                    range.selectNodeContents(el);
+                    range.collapse(false);
+                    var sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else if (typeof document.body.createTextRange != "undefined") {
+                    var textRange = document.body.createTextRange();
+                    textRange.moveToElementText(el);
+                    textRange.collapse(false);
+                    textRange.select();
+                }
+            }
+
+            placeCaretAtEnd( document.querySelector('#mainArgs'))
+            $("#mainArgs").on("keypress", e=>{
+                if (e.keyCode == 13) {
+                    e.preventDefault()
+                    $("#mainArgs").attr("contenteditable", "false")
+                    strReg = /("[\w ]+"|\w+)/g
+                    strs = [...$("#mainArgs").text().matchAll(strReg)]
+                    $("#console").append("\nHello ")
+                    strs.forEach(str=>{
+                        $("#console").append(str[0].replace(/"/g, "")+"\n")
+                    })
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>
