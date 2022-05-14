@@ -39,7 +39,7 @@ deleteFiles(path cpstring, cleanup bool) {
             if fileExists(folders[i]) == false {
                 continue
             }
-            lm = getLastModified(folders[i])
+            lm = getLastModified(folders[i]+"/main.bah")
             if currTime - lm > 60 {
                 deleteFiles(folders[i], false)
             }
