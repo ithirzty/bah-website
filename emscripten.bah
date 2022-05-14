@@ -80,8 +80,8 @@ buildFile(f cpstring) fileExec* {
     fs.writeFile("backtrace(arr ptr, l int) int {
         return 0
     }
-    #include <stdlib.h>
-    #include <string.h>
+    #include \"<stdlib.h>\"
+    #include \"<string.h>\"
     "+f)
     fs.close()
 
