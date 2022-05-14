@@ -80,8 +80,6 @@ buildFile(f cpstring) fileExec* {
     fs.writeFile("backtrace(arr ptr, l int) int {
         return 0
     }
-    #include \"<stdlib.h>\"
-    #include \"<string.h>\"
     "+f)
     fs.close()
 
@@ -94,6 +92,15 @@ buildFile(f cpstring) fileExec* {
     cmd = command("bah "+folder+"/main.bah -rcp -c")
     err = cmd.runBytes()
     fe.error = arrToStr(sanitizeResp(err))
+
+    fs.open(folder+"/main.c", "r")
+    f = fs.readContent()
+    f = "#include <stdlib.h>
+    #include <string.h>\n"+f
+    fs.close()
+    fs.open(folder+"/main.c", "w")
+    fs.writeFile(f)
+    fs.close()
 
     print("[emcc]")
     cmd = command("/usr/lib/emscripten/emcc "+folder+"/main.c -w -o "+folder+"/main.js")
