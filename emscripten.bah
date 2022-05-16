@@ -62,6 +62,12 @@ sanitizeResp(a []char) []char {
                 }
             }
             continue
+        } else if a[i] == "\t"[0] {
+            resp[len(resp)] = ' '
+            resp[len(resp)] = ' '
+            resp[len(resp)] = ' '
+            resp[len(resp)] = ' '
+            continue
         }
         resp[len(resp)] = a[i]
     }
@@ -78,10 +84,7 @@ buildFile(f cpstring) fileExec* {
     if fs.isValid() == false {
         panic("could not create file")
     }
-    fs.writeFile("backtrace(arr ptr, l int) int {
-        return 0
-    }
-    "+f)
+    fs.writeFile("backtrace(arr ptr, l int) int {;return 0;};"+f)
     fs.close()
 
     fe = new fileExec{
@@ -96,8 +99,7 @@ buildFile(f cpstring) fileExec* {
 
     fs.open(folder+"/main.c", "r")
     f = fs.readContent()
-    f = "#include <stdlib.h>
-    #include <string.h>\n"+f
+    f = "#include <stdlib.h>;#include <string.h>;"+f
     fs.close()
     fs.open(folder+"/main.c", "w")
     fs.writeFile(f)
@@ -106,6 +108,10 @@ buildFile(f cpstring) fileExec* {
     print("[emcc]")
     cmd = command("/usr/lib/emscripten/emcc "+folder+"/main.c -w -o "+folder+"/main.js")
     err = cmd.runBytes()
+
+    if len(err) > 0 {
+        fe.success = false
+    }
 
 
     print("ok!")
