@@ -48,11 +48,6 @@ main(args []cpstring) int {
     flags = flags{}
     flags.addInt("port", "port of the http server")
     flags.parse(args)
-    //test
-    // fs = fileStream{}
-    // fs.open("test.bah", "r")
-    // buildFile(fs.readContent())
-    // fs.close()
 
     p = 448
 

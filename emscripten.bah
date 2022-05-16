@@ -99,7 +99,7 @@ buildFile(f cpstring) fileExec* {
 
     fs.open(folder+"/main.c", "r")
     f = fs.readContent()
-    f = "#include <stdlib.h>;#include <string.h>;"+f
+    f = "#include <stdlib.h>\n#include <string.h>\n"+f
     fs.close()
     fs.open(folder+"/main.c", "w")
     fs.writeFile(f)
