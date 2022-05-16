@@ -134,7 +134,7 @@ main(args []cpstring) int {
 
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
-                editor.session.setMode("ace/mode/c");
+                editor.session.setMode("ace/mode/c_cpp");
 
                 document.getElementById("compile").onclick = ()=>{
                     document.getElementById("outputIfr").contentWindow.document.body.innerHTML = `<img src="loader.gif" style="width: 100%; height: 100%; overflow: hidden;">`
