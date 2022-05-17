@@ -1,0 +1,52 @@
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <script>
+        window.onload = ()=>{
+            btns = document.querySelectorAll("pre button.run")
+            btns.forEach((btn)=>{
+                btn.onclick = (e)=>{
+                    btn.classList.add("disabled")
+                    if (document.getElementById("outputIfr") != (null || undefined)) {
+                        document.getElementById("outputIfr").remove()
+                    }
+                    code = btn.parentNode.innerText.substr(4, btn.parentNode.innerText.length).replace(/#import/g, "#include")
+                    fetch("/compile", {method: 'POST', body: code}).then(r=>{
+                    r.json().then(j=>{
+                        btn.parentNode.innerHTML += `<hr><iframe frameborder="0" id="outputIfr"></iframe>`
+                        document.getElementById("outputIfr").contentWindow.document.write(`
+                        <html lang="fr">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <link rel="stylesheet" href="/style.css">
+                            <link href="https://fonts.cdnfonts.com/css/jura" rel="stylesheet">
+                        </head>
+                        <body>
+
+                            <pre style="font-size:12px;">${j.error}</pre><hr>
+                            <div id="output">
+                            </div>
+                            ${j.success==true ? `<script>
+                                console.log = (t)=>{
+                                    document.getElementById("output").innerText += t + "\\n"
+                                }
+                            </`+`script>
+                            <script src="/${j.js}"></`+`script>` : `<script>document.getElementById("output").innerHTML = "<b>Error compilling the program.</b>"</`+`script>`}
+                            
+                        </body>
+                        </html>
+                        `)
+                    })
+                    })
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>

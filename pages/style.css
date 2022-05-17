@@ -11,8 +11,12 @@ header {
     background-color: #2C2C2C;
 }
 
-header a {
+a {
     color: white;
+    text-decoration: underline;
+}
+
+header a {
     text-decoration: none;
 }
 
@@ -22,9 +26,8 @@ header a {
     text-align: center;
 }
 
-header a:hover {
+a:hover {
     color: #B1FFA5;
-    text-decoration: none;
 }
 
 header .linksWrapper {
@@ -99,7 +102,7 @@ span.light {
     padding: 5px;
 }
 
-#outputIfr {
+iframe {
     width: 100%;
     height: 390px;
 }

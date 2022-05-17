@@ -1,0 +1,37 @@
+pre var {
+    color: #6AB7BC;
+}
+
+pre type {
+    color: #74BC8C;
+}
+
+pre str {
+    color: #AE9267;
+}
+
+pre val {
+    color: #49898D;
+}
+
+pre func {
+    color: #EBDB89;
+}
+
+pre kw {
+    color: #983955;
+}
+
+pre hash {
+    color: #999999;
+}
+
+pre comment {
+    color: #3c9252;
+}
+
+pre {
+    padding: 10px;
+    background-color: #363636;
+    border-radius: 4px;
+}

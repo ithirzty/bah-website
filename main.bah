@@ -3,6 +3,7 @@
 #import "emscripten.bah"
 #import "/ithirzty/javel/javel.bah"
 #import "flags.bah"
+#include "documentation.bah"
 
 
 handleCompile(r javel_route*, req http_request, resp http_response) {
@@ -73,6 +74,11 @@ main(args []cpstring) int {
             base: "pages"
             path: "/tmp/"
             handle: handleTMPfile
+        },
+        javel_route{
+            base: "pages/doc"
+            path: "/doc/"
+            handle: serveDoc
         }
 
     }

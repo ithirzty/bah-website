@@ -1,0 +1,19 @@
+#import "markdown.bah"
+
+serveDoc(r javel_route*, req http_request, resp http_response) {
+    resp.setHeader("content-type", "text/html")
+    fs = fileStream{}
+    fs.open("./pages/doc/template_beg.html", "r")
+    resp.write(fs.readContent())
+    fs.close()
+
+    fs.open("./pages"+req.path+".md", "r")
+    resp.write(parseMarkdown(fs.readContent()).html())
+    fs.close()
+    
+    fs.open("./pages/doc/template_end.html", "r")
+    resp.write(fs.readContent())
+    fs.close()
+
+    resp.send()
+}
