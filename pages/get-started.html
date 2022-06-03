@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.8">
+        <title>Bah</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/style_doc.css">
+        <link href="https://fonts.cdnfonts.com/css/jura" rel="stylesheet">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <header>
+            <div class="row">
+
+                <div class="col-md-1 col-sm-12">
+                    <a class="bahBtn" href="/"><img src="logo.png" alt="Bah logo" style="height:34px"/></a>
+                </div>
+                <div class="col">
+                    <p class="linksWrapper">
+                        <a class="links" href="/get-started">Get Started</a> | 
+                        <a class="links" href="/doc">Documentation</a> | 
+                        <a class="links" href="/about">About</a>
+                    </p>
+                </div>
+                <div class="col-1 no-mobile"></div>
+            </div>
+        </header>
+
+        <main>
+
+            <section>
+                <h1>Installing the Bah compiler</h1>
+                <p><b>Here is how to start using Bah.</b><br>
+                    To install Bah on your computer, go to the <a href="https://github.com/ithirzty/bah">Bah Github</a> and follow the instructions for your operating system.<br>
+                    We recommend that you install <a href="https://git-scm.com/">Git</a> as it will make installation and updates easier.
+                </p>
+
+                <h2>Note for Windows</h2>
+                <p>For the Bah compiler to work as intended, you will need to install <a href="https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download">Mingw GCC compiler</a>.<br>
+                   In the installer, you will possibly need to install the <b>pthreads library</b>.
+                </p>
+
+                <h2>Note for MacOS</h2>
+                <p>Our developping toolchain does not currently support MacOS binary, you will need to execute a command before installation.
+                    One you have ran <code>darwin_install.sh</code>, you will have a really out of date version of the Bah compiler. To use the latest version, run the following inside the Bah folder:
+                    <pre>clang -I "/opt/bah/libs/darwin/include/" -L "/opt/bah/libs/darwin/" ./installer/darwin.c -O1 -w -lgc -lpthread -lm -o /opt/bah/bah</pre>
+                </p>
+
+
+                <div class="row btnWrapper">
+                    <div class="col btnCenter">
+                        <a class="btn btn-dark btn-lg" id="githubBtn" href="https://github.com/ithirzty/bah">
+                            <b>Github</b> <span class="light">ithirzty/bah</span> 
+                        </a>
+                    </div>
+                    <div class="col btnCenter">
+                        <a class="btn coder btn-lg" href="/doc">
+                            Browse <b>Documentation</b>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h1>Your first program</h1>
+                <p>Make a file ending in .bah such as <code>myFile.bah</code>.<br>
+                    Then, put your Bah code inside and compile it from a terminal using: <pre>bah myFile.bah</pre>
+                    This will gice you an executable (myFile or myFile.exe on windows) that can now be run.<br><br>
+
+                    After the file name, you can add flags. A list of all flags can be found using: <pre>bah -h</pre>
+
+                </p>
+            </section>
+
+            
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script>
+            window.onload = ()=>{
+                fetch("https://api.github.com/repos/ithirzty/bah").then(resp => {
+                    resp.json().then(respJson => {
+                    document.getElementById("githubBtn").innerHTML += respJson.stargazers_count+"★"
+                    })
+                })
+            }
+        </script>
+
+    </body>
+</html>

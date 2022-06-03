@@ -11,6 +11,12 @@ handleCompile(r javel_route*, req http_request, resp http_response) {
         return
     }
 
+    if req.body.length > 50000 { //50ko
+        resp.write("{\"error\": \"File to heavy.\"}")
+        resp.send()
+        return
+    }
+
     compResp = buildFile(req.body.str())
 
     resp.write(toJson(compResp))

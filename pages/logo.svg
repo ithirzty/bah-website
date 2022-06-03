@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <rect
+       x="145.66421"
+       y="445.63373"
+       width="155.53975"
+       height="91.760224"
+       id="rect37190" />
+    <rect
+       x="122.62129"
+       y="283.09881"
+       width="529.9873"
+       height="445.22225"
+       id="rect2211" />
+    <rect
+       x="122.62129"
+       y="283.09882"
+       width="529.9873"
+       height="445.22226"
+       id="rect2211-7" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath32532">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.999999px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 300.76211,414.41708 -167.88418,146.4872 195.0419,9.05257 z"
+         id="path32534" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer2">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:52.9167px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="95.928909"
+       y="128.19406"
+       id="text44522"
+       transform="rotate(21.817387)"><tspan
+         id="tspan44520"
+         style="font-size:52.9167px;fill:#b1ffa5;fill-opacity:1;stroke-width:0.264583"
+         x="95.928909"
+         y="128.19406">↜</tspan></text>
+  </g>
+  <g
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,42.677419,8.7096774)"
+       id="text2209"
+       style="font-style:normal;font-weight:normal;font-size:300px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect2211);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="122.62109"
+         y="560.54102"
+         id="tspan40747"><tspan
+           style="font-weight:600;font-family:Jura;-inkscape-font-specification:'Jura, Semi-Bold';fill:#b1ffa5"
+           id="tspan40745">B</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,42.685458,8.6948879)"
+       id="text2209-6"
+       style="font-style:normal;font-weight:normal;font-size:300px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect2211-7);fill:#000000;fill-opacity:1;stroke:none"
+       clip-path="url(#clipPath32532)"><tspan
+         x="122.62109"
+         y="560.54102"
+         id="tspan40751"><tspan
+           style="font-weight:600;font-family:Jura;-inkscape-font-specification:'Jura, Semi-Bold';fill:#aaf4a0"
+           id="tspan40749">B</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text37188"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect37190);fill:#000000;fill-opacity:1;stroke:none" />
+  </g>
+</svg>
