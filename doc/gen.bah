@@ -1,0 +1,433 @@
+#import "iostream.bah"
+#import "string.bah"
+#import "time.bah"
+#import "sqlite3.bah"
+#import "json.bah"
+#import "exec.bah"
+
+currentFile = ""
+
+#include "lexer.bah"
+
+#include "declarations.bah"
+
+struct Elems {
+    database: db
+    file: cpstring
+    fns: []func*
+    structs: []strct*
+    vars: []variable*
+
+    addFunc(fn func*) {
+        dbr = this.database.exec("SELECT COUNT(*) FROM functions WHERE name = "+SQLstr(fn.name))
+        nb = 0
+        dbr.scan(&nb)
+        if nb == 0 {
+            println("insertting (fn): "+fn.name)
+            this.database.exec("INSERT INTO functions (name, file, line, declaration, comment, version) VALUES 
+            (
+                "+SQLstr(fn.name)+",
+                "+SQLstr(fn.file)+",
+                "+intToStr(fn.line)+",
+                "+SQLstr(fn.declaration)+",
+                "+SQLstr(fn.comment)+",
+                "+SQLstr(fn.version)+"
+            )").panic()
+        } else {
+            println("updating (fn): "+fn.name)
+            this.database.exec("UPDATE functions SET
+                file = "+SQLstr(fn.file)+",
+                line = "+intToStr(fn.line)+",
+                declaration = "+SQLstr(fn.declaration)+",
+                comment = "+SQLstr(fn.comment)+",
+                version = "+SQLstr(fn.version)+"
+            WHERE name = "+SQLstr(fn.name)).panic()
+        }
+    }
+
+    addVar(v variable*) {
+        dbr = this.database.exec("SELECT COUNT(*) FROM variables WHERE name = "+SQLstr(v.name))
+        nb = 0
+        dbr.scan(&nb)
+        if nb == 0 {
+            println("insertting (var): "+v.name)
+            this.database.exec("INSERT INTO variables (name, file, line, type, comment, version, isConst) VALUES 
+            (
+                "+SQLstr(v.name)+",
+                "+SQLstr(v.file)+",
+                "+intToStr(v.line)+",
+                "+SQLstr(v.type)+",
+                "+SQLstr(v.comment)+",
+                "+SQLstr(v.version)+",
+                "+intToStr(v.isConst)+"
+            )").panic()
+        } else {
+            println("updating (var): "+v.name)
+            this.database.exec("UPDATE variables SET
+                file = "+SQLstr(v.file)+",
+                line = "+intToStr(v.line)+",
+                type = "+SQLstr(v.type)+",
+                comment = "+SQLstr(v.comment)+",
+                version = "+SQLstr(v.version)+",
+                isConst = "+intToStr(v.isConst)+"
+            WHERE name = "+SQLstr(v.name)).panic()
+        }
+    }
+
+    addStrct(s strct*) {
+        dbr = this.database.exec("SELECT COUNT(*) FROM structures WHERE name = "+SQLstr(s.name))
+        nb = 0
+        dbr.scan(&nb)
+        members = toJson(s.members)
+        methods = toJson(s.methods)
+        if nb == 0 {
+            println("insertting (struct): "+s.name)
+            this.database.exec("INSERT INTO structures (name, file, extends, line, members, methods, comment, version) VALUES 
+            (
+                "+SQLstr(s.name)+",
+                "+SQLstr(s.file)+",
+                "+SQLstr(s.extends)+",
+                "+intToStr(s.line)+",
+                "+SQLstr(members)+",
+                "+SQLstr(methods)+",
+                "+SQLstr(s.comment)+",
+                "+SQLstr(s.version)+"
+            )").panic()
+        } else {
+            println("updating (struct): "+s.name)
+            this.database.exec("UPDATE structures SET
+                file = "+SQLstr(s.file)+",
+                line = "+intToStr(s.line)+",
+                extends = "+SQLstr(s.extends)+",
+                comment = "+SQLstr(s.comment)+",
+                version = "+SQLstr(s.version)+",
+                members = "+SQLstr(members)+",
+                methods = "+SQLstr(methods)+"
+            WHERE name = "+SQLstr(s.name)).panic()
+        }
+    }
+
+}
+
+BAH_VERSION = ""
+
+getComment(f cpstring, pos uint) cpstring {
+    i=pos-1; for i >= 0, i-- {
+        if isSpace(f[i]) == false {
+            break
+        }
+    }
+    pos = i
+    for i >= 0, i-- {
+        if f[i] == <char>10 {
+            if f[i+1] != '/' || f[i+2] != '/' {
+                break
+            }
+        }
+    }
+    s = string(f[i:pos+1])
+    s.trim()
+    if s.hasPrefix("//") == false {
+        return ""
+    }
+    return s.str()
+}
+
+getType(l []Tok, i int*) cpstring {
+    r = ""
+    if l[*i].cont == "[" {
+        r = "[]"+l[*i+2].cont
+        *i += 2
+    } else if l[*i].cont == "function" {
+        r = "function"
+        *i++
+        for *i < len(l), *i++ {
+            r += l[*i].cont
+            if l[*i].cont == ")" {
+                break
+            }
+        }
+    } else {
+        r = l[*i].cont
+    }
+    *i++
+    for *i < len(l), *i++ {
+        if l[*i].cont != "*" {
+            *i--
+            break
+        }
+        r += "*"
+    }
+    return r
+}
+
+parseLine(l []Tok, f cpstring, elems Elems*) {
+    if l[0].type == TOKEN_TYPE_VAR {
+        if len(l) > 1 && l[1].cont == "(" {
+            //func
+            fn = new func {
+                name: l[0].cont
+                file: elems.file
+                line: l[0].line
+                version: BAH_VERSION
+                declaration: l[0].cont + "(" + l[2].cont + " "
+                comment: getComment(f, l[0].pos)
+            }
+
+            i=3; for i < len(l), i++ {
+                if l[i].cont == "{" {
+                    break
+                }
+                fn.declaration += l[i].cont
+                if l[i].cont == "," || l[i-1].cont == "," || l[i].cont == ")" {
+                    fn.declaration += " "
+                }
+            }
+
+            elems.addFunc(fn)
+        } else {
+            //var
+            v = new variable {
+                name: l[0].cont
+                file: elems.file
+                line: l[0].line
+                isConst: false
+                comment: getComment(f, l[0].pos)
+                version: BAH_VERSION
+            }
+            if l[1].cont != "=" {
+                v.type = l[1].cont
+            } else {
+                if l[2].type == TOKEN_TYPE_BOOL {
+                    v.type = "bool"
+                } else if l[2].type == TOKEN_TYPE_CHAR {
+                    v.type = "char"
+                } else if l[2].type == TOKEN_TYPE_INT {
+                    v.type = "int"
+                } else if l[2].type == TOKEN_TYPE_FLOAT {
+                    v.type = "float"
+                } else if l[2].type == TOKEN_TYPE_STR {
+                    v.type = "cpstring"
+                } else {
+                    cont = ""
+                    i=2; for i < len(l), i++ {
+                        cont += l[i].cont
+                    }
+                    v.type = "unknown ("+cont+")"
+                }
+            }
+            elems.addVar(v)
+        }
+    } else if l[0].cont == "const" {
+        //const
+        v = new variable {
+            name: l[1].cont
+            file: elems.file
+            line: l[0].line
+            isConst: true
+            comment: getComment(f, l[0].pos)
+            version: BAH_VERSION
+        }
+        if l[3].type == TOKEN_TYPE_BOOL {
+            v.type = "bool"
+        } else if l[3].type == TOKEN_TYPE_CHAR {
+            v.type = "char"
+        } else if l[3].type == TOKEN_TYPE_INT {
+            v.type = "int"
+        } else if l[3].type == TOKEN_TYPE_FLOAT {
+            v.type = "float"
+        } else if l[3].type == TOKEN_TYPE_STR {
+            v.type = "cpstring"
+        } else {
+            v.type = "unknown ("+l[3].cont+")"
+        }
+        elems.addVar(v)
+    } else if l[0].cont == "struct" {
+        //struct
+        s = new strct {
+            name: l[1].cont
+            file: elems.file
+            line: l[0].line
+            comment: getComment(f, l[0].pos)
+            version: BAH_VERSION
+        }
+        i = 3
+        if s.name == "!" {
+            s.name = l[2].cont
+            i = 4
+        }
+        if l[i-1].cont == "extend" {
+            s.extends = l[i].cont
+            i += 2
+        }
+        for i < len(l), i += 3 {
+            if l[i].cont == "}" {
+                break
+            }
+            if l[i+1].cont == "(" {
+                //method
+                methd = new func {
+                    name: l[i].cont
+                    file: elems.file
+                    line: l[i].line
+                    declaration: l[i].cont + "(" + l[i+2].cont + " "
+                    comment: getComment(f, l[i].pos)
+                    version: BAH_VERSION
+                }
+                i += 3
+                for i < len(l), i++ {
+                    if l[i].cont == "{" {
+                        break
+                    }
+                    methd.declaration += l[i].cont
+                    if l[i].cont == "," || l[i-1].cont == "," || l[i].cont == ")" {
+                        methd.declaration += " "
+                    }
+                }
+                s.methods[len(s.methods)] = methd
+                nb = 0
+                for i < len(l), i++ {
+                    t = l[i]
+                    if t.cont == "{" {
+                        nb++
+                    } else if t.cont == "}" {
+                        nb--
+                        if nb == 0 {
+                            break
+                        }
+                    }
+                }
+                i -= 2
+            } else {
+                memb = new variable {
+                    name: l[i].cont
+                    line: l[i].line
+                    file: elems.file
+                    version: BAH_VERSION
+                    isConst: false
+                    comment: getComment(f, l[i].pos)
+                }
+                i += 2
+                memb.type = getType(l, &i)
+                s.members[len(s.members)] = memb
+                if l[i+1].cont == "=" {
+                    i += 2
+                }
+                i -= 2
+            }
+        }
+        elems.addStrct(s)
+    }
+}
+
+parseLines(tokens []Tok, f cpstring, elems Elems*) {
+
+    if len(tokens) == 0 {
+        return
+    }
+    line = []Tok
+    ft = tokens[0]
+    currentLine = ft.line
+    nbEncl = 0
+    i=0; for i < len(tokens) {
+        t = tokens[i]
+        
+        if t.type == TOKEN_TYPE_ENCL {
+            if t.cont == "(" {
+                nbEncl =nbEncl + 1
+            } else if t.cont == ")" {
+                nbEncl =nbEncl - 1
+            } else if t.cont == "{" {
+                nbEncl =nbEncl + 1
+            } else if t.cont == "}" {
+                nbEncl =nbEncl - 1
+            } else if t.cont == "[" {
+                nbEncl =nbEncl + 1
+            } else if t.cont == "]" {
+                nbEncl =nbEncl - 1
+            }
+        }
+
+        if t.type == TOKEN_TYPE_STR && t.begLine == currentLine {
+            currentLine = t.line
+        }
+
+        if nbEncl == 0 {
+            if t.line != currentLine {
+                if t.type == TOKEN_TYPE_ENCL {
+                    line[len(line)] = t
+                    pt = tokens[i-1]
+                    currentLine = pt.line
+                } else {
+                    currentLine = t.line
+                }
+                parseLine(line, f, elems)
+                clear(line)
+                if t.type == TOKEN_TYPE_ENCL {
+                    i++
+                    continue
+                }
+            } else if t.cont == ";" {
+                currentLine = t.line
+                parseLine(line, f, elems)
+                clear(line)
+                i++
+                continue
+            }
+        }
+
+        line[len(line)] = t
+        i++
+    }
+
+    if len(line) > 0 {
+        if nbEncl == 0 {
+                parseLine(line, f, elems)
+                clear(line)
+        } else {
+            ft = line[len(line)-1]
+            return
+        }
+    }
+
+
+}
+
+genDocFromFile(f cpstring, DB db) {
+    fs = fileStream{}
+    fs.open("/opt/bah/"+f, "r")
+    cont = fs.readContent()
+    toks = lexer(cont)
+    elems = new Elems{
+        file: f
+        database: DB
+    }
+    parseLines(toks, cont, elems)
+    fs.close()
+}
+
+genDoc() {
+    DB = db{}
+    if DB.open("database.db") == false {
+        panic("error openning databse")
+    }
+    files = listFiles("/opt/bah/")
+    i=0; for i < len(files), i++ {
+        if string(files[i]).hasSuffix(".bah") == false {
+            continue
+        }
+        genDocFromFile(files[i], DB)
+    }
+    DB.close()
+}
+
+main(args []cpstring) int {
+
+    cmd = command("bah -v")
+    r = cmd.runBytes()[22:]
+    r = r[:len(r)-23]
+    BAH_VERSION = arrToStr(r)
+
+    genDoc()
+    return 0
+}

@@ -1,4 +1,8 @@
 #import "markdown.bah"
+#import "json.bah"
+#import "sqlite3.bah"
+
+#include "doc/declarations.bah"
 
 serveDoc(r javel_route*, req http_request, resp http_response) {
     resp.setHeader("content-type", "text/html")
@@ -17,3 +21,65 @@ serveDoc(r javel_route*, req http_request, resp http_response) {
 
     resp.send()
 }
+
+struct apiElemResp {
+    funcs: []func*
+    vars: []variable*
+    structs: []strct_web*
+}
+
+serveApi(r javel_route*, req http_request, resp http_response) {
+    resp.setHeader("content-type", "application/json")
+
+    DB = db{}
+    DB.open("doc/database.db")
+    path = string(req.path)
+    if req.path == "/api/search" {
+        apiResp = new apiElemResp
+        if req.body.hasSuffix("\r\n") {
+            req.body.trimRight(2)
+        }
+
+        dbr = DB.exec("SELECT * FROM functions WHERE name LIKE "+SQLstr("%"+req.body.str()+"%"))
+        dbr.scan(apiResp.funcs)
+
+        dbr = DB.exec("SELECT * FROM variables WHERE name LIKE "+SQLstr("%"+req.body.str()+"%"))
+        dbr.scan(apiResp.vars)
+
+        dbr = DB.exec("SELECT * FROM structures WHERE name LIKE "+SQLstr("%"+req.body.str()+"%"))
+        dbr.scan(apiResp.structs)
+
+
+        resp.write(toJson(apiResp))
+    } else if path.hasPrefix("/api/func/") {
+        path.trimLeft(strlen("/api/func/"))
+        dbr = DB.exec("SELECT * FROM functions WHERE name = "+SQLstr(path.str()))
+        fn = new func
+        dbr.scan(fn)
+        resp.write(toJson(fn))
+    } else if path.hasPrefix("/api/var/") {
+        path.trimLeft(strlen("/api/var/"))
+        dbr = DB.exec("SELECT * FROM variables WHERE name = "+SQLstr(path.str()))
+        v = new variable
+        dbr.scan(v)
+        resp.write(toJson(v))
+    } else if path.hasPrefix("/api/struct/") {
+        path.trimLeft(strlen("/api/struct/"))
+        dbr = DB.exec("SELECT * FROM structures WHERE name = "+SQLstr(path.str()))
+        s = new strct_web
+        dbr.scan(s)
+        resp.write(toJson(s))
+    } else {
+        resp.write("invalid request....")
+    }
+
+
+
+
+    DB.close()
+
+
+    resp.send()
+}
+
+//TODO: elems explorer

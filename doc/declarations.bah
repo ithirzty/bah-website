@@ -1,0 +1,54 @@
+struct func {
+    name: cpstring
+    file: cpstring
+    line: int
+    declaration: cpstring = ""
+    comment: cpstring = ""
+    version: cpstring
+}
+
+struct variable {
+    name: cpstring
+    type: cpstring
+    file: cpstring
+    line: int
+    version: cpstring
+    isConst: bool
+    comment: cpstring
+}
+
+struct strct {
+    name: cpstring
+    file: cpstring
+    extends: cpstring
+    line: int
+    members: []variable*
+    methods: []func*
+    comment: cpstring
+    version: cpstring
+}
+
+struct strct_web {
+    name: cpstring
+    file: cpstring
+    extends: cpstring
+    line: int
+    members: cpstring
+    methods: cpstring
+    comment: cpstring
+    version: cpstring
+}
+
+SQLstr(s cpstring) cpstring {
+    arr = []char{'''}
+    l = strlen(s)
+    i=0; for i < l, i++ {
+        if s[i] == ''' {
+            arr[len(arr)] = '''
+        }
+        arr[len(arr)] = s[i]
+    }
+    arr[len(arr)] = '''
+    arr[len(arr)] = null
+    return arrAsStr(arr)
+}

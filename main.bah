@@ -51,6 +51,13 @@ handleTMPfile(r javel_route*, req http_request, resp http_response) {
 
 }
 
+serveLabels(r javel_route*, req http_request, resp http_response) {
+    resp.setHeader("Cache-Control", "max-age=3600")
+    resp.setHeader("content-type", "image/svg+xml")
+
+    javel_serveFile(r, req, resp)
+}
+
 main(args []cpstring) int {
     flags = flags{}
     flags.addInt("port", "port of the http server")
@@ -85,6 +92,15 @@ main(args []cpstring) int {
             base: "pages/doc"
             path: "/doc/"
             handle: serveDoc
+        },
+        javel_route{
+            path: "/api/"
+            handle: serveApi
+        },
+        javel_route{
+            base: "pages/"
+            path: "/elem-labels/"
+            handle: serveLabels
         }
 
     }

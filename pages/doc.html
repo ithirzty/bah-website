@@ -6,6 +6,7 @@
         <title>Bah</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/style_doc.css">
         <link href="https://fonts.cdnfonts.com/css/jura" rel="stylesheet">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     </head>
@@ -30,7 +31,7 @@
         <main>
 
             <section>
-                <h1>Documentation</h1>
+                <h1>Language</h1>
                 <h2>Table of contents</h2>
                 <ol>
                     <li>
@@ -97,11 +98,111 @@
                     </li>
                 </ol>
             </section>
+
+            <section id="dynamic-doc">
+                <h1>Standard libraries</h1>
+                <p>Bah is more than the language itself, it comes with some standard libraries that can be imported in your programs.<br>
+                    Here is how to use them.
+                </p>
+                <center>
+                    <form id="search-form" style="max-width: 400px;">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Search a structure/variable/function" name="q" aria-describedby="button-search-elem">
+                        </div>
+                    </form>
+                </center>
+                <div id="res">
+
+                </div>
+            </section>
+
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/doc_ide.js"></script>
+        <script>
+            inp = document.querySelector("input[name=q]")
+            document.getElementById("search-form").onsubmit = (e)=>{
+                e.preventDefault()
+                // window.location.href = "/std_doc#"+inp.value
+            }
 
+            addEventListener('popstate', event => {
+                if (event.target.location.href == window.location.href && event.state.res != undefined && event.state.inpVal != undefined) {
+                    document.getElementById("res").innerHTML = event.state.res
+                    inp.value = event.state.inpVal
+                } else {
+                    window.location.reload()
+                }
+            })
 
+            function addState() {
+                history.replaceState({
+                res: document.getElementById("res").innerHTML,
+                inpVal: inp.value
+                }, "", window.location.url)
+            }
+
+            inp.onkeyup = ()=> {
+                if (inp.value.length < 3) {
+                    return
+                }
+                fetch("/api/search", {
+                    method: 'POST',
+                    body: inp.value
+                }).then(r=>{
+                    r.json().then(j=>{
+                        document.getElementById("res").innerHTML = ""
+                        j.structs.forEach(element => {
+                            let members = "", methods = ""
+                            JSON.parse(element.members).forEach(memb=>{
+                                members += `<comment>${sanitizeComments(memb.comment, 1)}</comment><br>    <var>${memb.name}</var>: <type>${memb.type}</type><br>`
+                            })
+                            JSON.parse(element.methods).forEach(meth=>{
+                                methods += `<comment>${sanitizeComments(meth.comment, 1)}</comment><br>    ${higlightDecl(meth.declaration)}<br>`
+                            })
+                            document.getElementById("res").innerHTML += `
+                            <div class="res" onclick="addState();window.location.href=this.attributes['href'].textContent;" href="std_doc#struct/${element.name}">
+                                <span class="res-name">
+                                    <span class="badge bg-light"><img src="/elem-labels/struct.svg"/></span>
+                                    ${element.name}
+                                </span>
+                                <span class="badge coder">${element.file}:${element.line}</span><br>
+                                <pre class="res-declaration"><comment>${sanitizeComments(element.comment)}</comment><br><kw>struct</kw> <type>${element.name}</type> ${element.extends.length > 0 ? "<kw>extend</kw> <type>"+element.extends+"</type>" : ""} {
+${members}
+${methods}
+}</pre>
+                            </div>
+                            `
+                        });
+                        j.vars.forEach(element => {
+                            document.getElementById("res").innerHTML += `
+                            <div class="res" onclick="addState();window.location.href=this.attributes['href'].textContent;" href="std_doc#var/${element.name}">
+                                <span class="res-name">
+                                    <span class="badge bg-light"><img src="/elem-labels/var.svg"/></span>
+                                    ${element.name}
+                                </span>
+                                <span class="badge coder">${element.file}:${element.line}</span><br>
+                                <pre class="res-declaration"><comment>${sanitizeComments(element.comment)}</comment><br><var>${element.name}</var> <type>${element.type}</type></pre>
+                            </div>
+                            `
+                        });
+                        j.funcs.forEach(element => {
+                            document.getElementById("res").innerHTML += `
+                            <div class="res" onclick="addState();window.location.href=this.attributes['href'].textContent;" href="std_doc#func/${element.name}">
+                                <span class="res-name">
+                                    <span class="badge bg-light"><img src="/elem-labels/func.svg"/></span>
+                                    ${element.name}
+                                </span>
+                                <span class="badge coder">${element.file}:${element.line}</span><br>
+                                <pre class="res-declaration"><comment>${sanitizeComments(element.comment)}</comment><br>${higlightDecl(element.declaration)}</pre>
+                            </div>
+                            `
+                        });
+                    })
+                })
+            }
+        </script>
     </body>
 </html>
